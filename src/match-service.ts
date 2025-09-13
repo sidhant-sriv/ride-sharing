@@ -1,37 +1,343 @@
 import { PrismaClient } from '@prisma/client';
+import MapboxClient from '@mapbox/mapbox-sdk';
+import Directions from '@mapbox/mapbox-sdk/services/directions';
+import { calculateDistance, calculatePolylineOverlap, getCanonicalTripIds } from './utils';
 
 const prisma = new PrismaClient();
+const mapboxClient = MapboxClient({ accessToken: process.env.MAPBOX_ACCESS_TOKEN! });
+const directionsService = Directions(mapboxClient);
 
-export async function findMatches(tripId: string) {
-  const newTrip = await prisma.trip.findUnique({ where: { id: tripId } });
-  if (!newTrip) throw new Error("Trip not found");
+const PROXIMITY_THRESHOLD_METERS = 250;
+// Approx. 1 degree of latitude is 111km
+const PROXIMITY_THRESHOLD_DEGREES = PROXIMITY_THRESHOLD_METERS / 111000;
 
+// Helper function to get route details, using the DB as a cache
+async function getRouteDetails(tripId: string) {
+  console.log(` [DB] Looking up trip details for: ${tripId}`);
+  let trip = await prisma.trip.findUnique({ 
+    where: { id: tripId },
+    include: { driver: true }
+  });
+  if (!trip) throw new Error("Trip not found");
+
+  console.log(`[TRIP] Found trip from ${trip.driver.fullName} (${trip.pickupLat}, ${trip.pickupLng}) → (${trip.dropOffLat}, ${trip.dropOffLng})`);
+
+  // If polyline is not cached, fetch from Mapbox
+  if (!trip.polyline || !trip.routeLengthM) {
+    console.log(`[MAPBOX] Route not cached, fetching from Mapbox API...`);
+    try {
+      const requestPayload = {
+        profile: 'driving-traffic' as const,
+        waypoints: [
+          { coordinates: [Number(trip.pickupLng), Number(trip.pickupLat)] as [number, number] },
+          { coordinates: [Number(trip.dropOffLng), Number(trip.dropOffLat)] as [number, number] }
+        ],
+        geometries: 'polyline6' as const,
+      };
+      console.log(`[MAPBOX] API Request:`, JSON.stringify(requestPayload, null, 2));
+
+      const response = await directionsService.getDirections(requestPayload).send();
+      const route = response.body.routes[0];
+      
+      console.log(` [MAPBOX] API Response: ${route.distance}m, ${route.duration}s`);
+      console.log(` [DB] Caching route data for trip ${tripId}`);
+      
+      trip = await prisma.trip.update({
+        where: { id: tripId },
+        data: {
+          polyline: route.geometry,
+          routeLengthM: route.distance,
+          routeDurationS: route.duration,
+        },
+        include: { driver: true }
+      });
+      console.log(` [DB] Route cached successfully`);
+    } catch (error) {
+      console.error(' [MAPBOX] Error fetching route:', error);
+      throw new Error('Failed to fetch route details');
+    }
+  } else {
+    console.log(` [CACHE] Using cached route data: ${trip.routeLengthM}m`);
+  }
+  return trip;
+}
+
+async function upsertMatch(tripAId: string, tripBId: string, matchScore: number) {
+  const [canonicalTripAId, canonicalTripBId] = getCanonicalTripIds(tripAId, tripBId);
+
+  await prisma.match.upsert({
+    where: {
+      tripAId_tripBId: {
+        tripAId: canonicalTripAId,
+        tripBId: canonicalTripBId
+      }
+    },
+    update: { matchScore, updatedAt: new Date() },
+    create: {
+      tripAId: canonicalTripAId,
+      tripBId: canonicalTripBId,
+      matchScore,
+      status: 'proposed'
+    }
+  });
+}
+
+// Main function for finding matches for a trip
+export async function findMatchesForTrip(tripId: string) {
+  console.log(`\n [MATCHING] Starting match search for trip: ${tripId}`);
+  
+  // Step 1: Get our main trip's details, fetching from Mapbox if needed
+  console.log(` [STEP 1] Fetching main trip details...`);
+  const newTrip = await getRouteDetails(tripId);
+
+  // Step 2: Pre-filtering candidates from the database
+  console.log(` [STEP 2] Pre-filtering candidates from database...`);
   const thirtyMinutes = 30 * 60 * 1000;
   const startTime = new Date(newTrip.departureTime.getTime() - thirtyMinutes);
   const endTime = new Date(newTrip.departureTime.getTime() + thirtyMinutes);
 
-  // 1. & 2. Initial DB Query with Time, Seats, and H3 Prefilter
-  const candidates = await prisma.trip.findMany({
+  console.log(` [FILTER] Time window: ${startTime.toISOString()} to ${endTime.toISOString()}`);
+  console.log(` [FILTER] Bounding box: ${PROXIMITY_THRESHOLD_DEGREES.toFixed(4)} degrees`);
+
+  // Find all potential candidates from the database
+  const allPotentialTrips = await prisma.trip.findMany({
     where: {
-      id: { not: newTrip.id },
+      id: { not: newTrip.id }, // Don't match with itself
       status: 'pending',
       departureTime: { gte: startTime, lte: endTime },
-      seatsOffered: { gte: newTrip.seatsRequired },
-      h3Cells: {
-        hasSome: newTrip.h3Cells, // Powerful Prisma feature for array overlap
-      },
+      seatsOffered: { gte: newTrip.seatsRequired }, // Driver must have enough seats
+      seatsRequired: { lte: newTrip.seatsOffered }, // Rider must have enough seats for the driver
+      // Optional proximity filter: trips starting and ending within reasonable distance
+      pickupLat: { gte: newTrip.pickupLat - PROXIMITY_THRESHOLD_DEGREES, lte: newTrip.pickupLat + PROXIMITY_THRESHOLD_DEGREES },
+      pickupLng: { gte: newTrip.pickupLng - PROXIMITY_THRESHOLD_DEGREES, lte: newTrip.pickupLng + PROXIMITY_THRESHOLD_DEGREES },
     },
-  });
-  
-  // 3. Scoring & Ranking (Simplified for Phase 1)
-  const scoredMatches = candidates.map(candidate => {
-    const overlapCount = candidate.h3Cells.filter(cell => newTrip.h3Cells.includes(cell)).length;
-    const score = (overlapCount / newTrip.h3Cells.length) * 100;
-    return { trip: candidate, score };
+    include: { driver: true }
   });
 
-  // Sort by the best score
-  scoredMatches.sort((a, b) => b.score - a.score);
+  console.log(` [DB] Found ${allPotentialTrips.length} potential candidates`);
 
-  return scoredMatches;
+  // Step 2.5: Precise proximity filtering before hitting Mapbox
+  console.log(` [STEP 2.5] Filtering candidates within ${PROXIMITY_THRESHOLD_METERS}m...`);
+  const tripsWithinProximity = allPotentialTrips.filter(candidate => {
+    const distance = calculateDistance(
+      newTrip.pickupLat,
+      newTrip.pickupLng,
+      candidate.pickupLat,
+      candidate.pickupLng
+    );
+    return distance <= PROXIMITY_THRESHOLD_METERS;
+  });
+  console.log(` [FILTER] Found ${tripsWithinProximity.length} candidates within proximity`);
+
+  // Step 3: Detailed analysis with Mapbox
+  console.log(` [STEP 3] Starting detailed analysis with Mapbox...`);
+  const validMatches = [];
+
+  for (let i = 0; i < tripsWithinProximity.length; i++) {
+    const candidate = tripsWithinProximity[i];
+    console.log(`\n [CANDIDATE ${i + 1}/${tripsWithinProximity.length}] Analyzing trip ${candidate.id} from ${candidate.driver.fullName}`);
+    
+    try {
+      // A. Get candidate route details (uses cache)
+      console.log(`    Getting candidate route details...`);
+      const candidateTrip = await getRouteDetails(candidate.id);
+
+      // B. Calculate Overlap
+      console.log(`    Calculating polyline overlap...`);
+      const overlapPercentage = calculatePolylineOverlap(newTrip.polyline!, candidateTrip.polyline!);
+      console.log(`    Overlap: ${overlapPercentage.toFixed(2)}%`);
+      
+      if (overlapPercentage < 20) {
+        console.log(`    Skipping: overlap ${overlapPercentage.toFixed(2)}% < 20% threshold`);
+        continue;
+      }
+
+      // C. Calculate Deviation
+      console.log(`    Calculating route deviation...`);
+      const combinedWaypoints: { coordinates: [number, number] }[] = [
+        { coordinates: [Number(newTrip.pickupLng), Number(newTrip.pickupLat)] },
+        { coordinates: [Number(candidateTrip.pickupLng), Number(candidateTrip.pickupLat)] },
+        { coordinates: [Number(candidateTrip.dropOffLng), Number(candidateTrip.dropOffLat)] },
+        { coordinates: [Number(newTrip.dropOffLng), Number(newTrip.dropOffLat)] },
+      ];
+      console.log(`    [MAPBOX] Combined route API request with ${combinedWaypoints.length} waypoints`);
+
+      const combinedRouteResponse = await directionsService.getDirections({
+        profile: 'driving-traffic',
+        waypoints: combinedWaypoints,
+      }).send();
+
+      const combinedRoute = combinedRouteResponse.body.routes[0];
+      const combinedDistance = combinedRoute.distance;
+      const combinedDuration = combinedRoute.duration;
+      const extraDistance = combinedDistance - newTrip.routeLengthM!;
+      const deviationPercentage = (extraDistance / newTrip.routeLengthM!) * 100;
+
+      console.log(`[MAPBOX] Combined route: ${combinedDistance}m (+${extraDistance}m), ${combinedDuration}s`);
+      console.log(`Deviation: ${deviationPercentage.toFixed(2)}%`);
+
+      if (deviationPercentage <= 30) {
+        // Calculate final match score
+        const matchScore = (0.7 * overlapPercentage) + (0.3 * (100 - deviationPercentage));
+        console.log(`   Match score: ${matchScore.toFixed(2)}% (overlap: 70%, deviation: 30%)`);
+        
+        // Store the match in the database
+        console.log(`   [DB] Storing match in database...`);
+        await upsertMatch(newTrip.id, candidateTrip.id, matchScore);
+
+        // This is a valid match!
+        const originalDuration = newTrip.routeDurationS!; 
+        const additionalTimeSeconds = combinedDuration - originalDuration;
+        validMatches.push({
+          trip: candidateTrip,
+          overlapPercentage: overlapPercentage,
+          deviationPercentage: deviationPercentage,
+          additionalDistanceMeters: extraDistance,
+          additionalTimeSeconds: additionalTimeSeconds,
+          matchScore: matchScore
+        });
+        console.log(`   Valid match found and stored!`);
+      } else {
+        console.log(`   Rejected: deviation ${deviationPercentage.toFixed(2)}% > 30% threshold`);
+      }
+    } catch (error) {
+      console.error(`   Error processing candidate trip ${candidate.id}:`, error);
+      // Continue with next candidate
+    }
+  }
+
+  console.log(`\n[ANALYSIS] Completed analysis. Found ${validMatches.length} valid matches`);
+
+  // Step 4: Scoring, ranking, and returning the result
+  const rankedMatches = validMatches.map(match => ({
+    matchingTripId: match.trip.id,
+    matchPercentage: parseFloat(match.matchScore.toFixed(2)),
+    overlapPercentage: parseFloat(match.overlapPercentage.toFixed(2)),
+    additionalDistanceMeters: Math.round(match.additionalDistanceMeters),
+    additionalTimeSeconds: Math.round(match.additionalTimeSeconds),
+    // Include trip details for convenience
+    trip: {
+      id: match.trip.id,
+      driverId: match.trip.driverId,
+      driverName: match.trip.driver.fullName,
+      departureTime: match.trip.departureTime,
+      seatsOffered: match.trip.seatsOffered,
+      pickup: { lat: match.trip.pickupLat, lng: match.trip.pickupLng },
+      dropOff: { lat: match.trip.dropOffLat, lng: match.trip.dropOffLng },
+    }
+  }));
+
+  // Sort by the highest score
+  rankedMatches.sort((a, b) => b.matchPercentage - a.matchPercentage);
+
+  return rankedMatches;
+}
+
+// Function to get existing matches for a trip from the database
+export async function getExistingMatches(tripId: string) {
+  const matches = await prisma.match.findMany({
+    where: {
+      OR: [
+        { tripAId: tripId },
+        { tripBId: tripId }
+      ],
+      status: { in: ['proposed', 'accepted'] }
+    },
+    include: {
+      tripA: { include: { driver: true } },
+      tripB: { include: { driver: true } }
+    },
+    orderBy: { matchScore: 'desc' }
+  });
+
+  return matches.map((match: any) => {
+    // Determine which trip is the "other" trip (not the requested one)
+    const otherTrip = match.tripAId === tripId ? match.tripB : match.tripA;
+    
+    return {
+      matchId: match.id,
+      matchingTripId: otherTrip.id,
+      matchPercentage: match.matchScore,
+      status: match.status,
+      trip: {
+        id: otherTrip.id,
+        driverId: otherTrip.driverId,
+        driverName: otherTrip.driver.fullName,
+        departureTime: otherTrip.departureTime,
+        seatsOffered: otherTrip.seatsOffered,
+        pickup: { lat: otherTrip.pickupLat, lng: otherTrip.pickupLng },
+        dropOff: { lat: otherTrip.dropOffLat, lng: otherTrip.dropOffLng },
+      }
+    };
+  });
+}
+
+export async function updateMatchStatus(matchId: string, status: 'accepted' | 'rejected') {
+  const match = await prisma.match.update({
+    where: { id: matchId },
+    data: { 
+      status: status,
+      updatedAt: new Date()
+    },
+    include: {
+      tripA: true,
+      tripB: true
+    }
+  });
+
+  // If match is accepted, update both trips to 'matched' status
+  if (status === 'accepted') {
+    await prisma.trip.updateMany({
+      where: {
+        id: { in: [match.tripAId, match.tripBId] }
+      },
+      data: {
+        status: 'matched',
+        updatedAt: new Date()
+      }
+    });
+  }
+
+  return match;
+}
+
+export async function invalidateAndRematch(tripId: string, isDeletion: boolean = false) {
+  const matches = await prisma.match.findMany({
+    where: {
+      OR: [{ tripAId: tripId }, { tripBId: tripId }],
+      status: 'accepted',
+    },
+    include: {
+      tripA: true,
+      tripB: true,
+    }
+  });
+
+  for (const match of matches) {
+    const otherTripId = match.tripAId === tripId ? match.tripBId : match.tripAId;
+    
+    // In a real app, you'd send a notification to the other user
+    console.log(`Notifying user of trip ${otherTripId} that their match has been ${isDeletion ? 'cancelled' : 'changed'}.`);
+
+    await prisma.trip.update({
+      where: { id: otherTripId },
+      data: { status: 'pending' },
+    });
+  }
+
+  await prisma.match.deleteMany({
+    where: {
+      OR: [{ tripAId: tripId }, { tripBId: tripId }],
+    }
+  });
+
+  if (!isDeletion) {
+    // This is an async operation, but we don't need to wait for it
+    findMatchesForTrip(tripId);
+  }
+}
+
+// Legacy function for backward compatibility
+export async function findMatches(tripId: string) {
+  return findMatchesForTrip(tripId);
 }

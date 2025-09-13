@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,26 +10,92 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Gender {
+  male
+  female
+  other
+  prefer_not_to_say
+}
+
+enum TripStatus {
+  pending
+  matched
+  in_progress
+  completed
+  cancelled
+}
+
+enum MatchStatus {
+  proposed
+  accepted
+  rejected
+  cancelled
+}
+
 model User {
-  id    String @id @default(uuid())
-  phone String @unique
-  name  String
-  trips Trip[]
+  id           String   @id @default(uuid())
+  phoneNumber  String   @unique @map("phone_number")
+  fullName     String   @map("full_name")
+  age          Int?
+  gender       Gender?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  trips        Trip[]
+
+  @@map("users")
 }
 
 model Trip {
-  id             String    @id @default(uuid())
-  user           User      @relation(fields: [userId], references: [id])
-  userId         String
-  status         String    @default("pending")
-  seatsRequired  Int       @default(1)
-  seatsOffered   Int       @default(0)
-  departureTime  DateTime
+  id               String     @id @default(uuid())
+  driverId         String     @map("driver_id")
+  
+  // Location data - using separate lat/lng fields for Prisma compatibility
+  pickupLat        Float      @map("pickup_lat")
+  pickupLng        Float      @map("pickup_lng")
+  dropOffLat       Float      @map("drop_off_lat")
+  dropOffLng       Float      @map("drop_off_lng")
+  
+  departureTime    DateTime   @map("departure_time")
+  seatsOffered     Int        @default(1) @map("seats_offered")
+  seatsRequired  Int        @default(1) @map("seats_required")
+  status           TripStatus @default(pending)
+  
+  // Cached route data from Mapbox
+  polyline         String?    // Encoded polyline string
+  routeLengthM     Float?     @map("route_length_m")
+  routeDurationS   Float?     @map("route_duration_s")
+  
+  createdAt        DateTime   @default(now()) @map("created_at")
+  updatedAt        DateTime   @updatedAt @map("updated_at")
+  
+  // Relations
+  driver           User       @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  matchesAsA       Match[]    @relation("TripA")
+  matchesAsB       Match[]    @relation("TripB")
 
-  // Pre-computed features
-  snappedPolyline  String?   // Store as encoded string
-  routeLengthM     Float?
-  h3Cells          String[]  // Prisma supports native array types for PostgreSQL
+  @@index([status])
+  @@index([departureTime])
+  @@index([pickupLat, pickupLng])
+  @@map("trips")
+}
 
-  createdAt      DateTime  @default(now())
+model Match {
+  id          String      @id @default(uuid())
+  tripAId     String      @map("trip_a_id")
+  tripBId     String      @map("trip_b_id")
+  matchScore  Float?      @map("match_score")
+  status      MatchStatus @default(proposed)
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  
+  // Relations
+  tripA       Trip        @relation("TripA", fields: [tripAId], references: [id], onDelete: Cascade)
+  tripB       Trip        @relation("TripB", fields: [tripBId], references: [id], onDelete: Cascade)
+
+  @@unique([tripAId, tripBId])
+  @@index([tripAId])
+  @@index([tripBId])
+  @@map("matches")
 }

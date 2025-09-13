@@ -8,8 +8,8 @@ describe('API Tests', () => {
     async function createTestUser() {
         return await prisma.user.create({
             data: {
-                phone: `+1555${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`,
-                name: 'Test User'
+                phoneNumber: `+1555${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`,
+                fullName: 'Test User'
             }
         });
     }
@@ -19,10 +19,9 @@ describe('API Tests', () => {
         const user = await createTestUser();
         
         const body = {
-            "userId": user.id,
-            "origin": [-74.0060, 40.7128],
-            "destination": [-73.935242, 40.730610],
-            "seatsRequired": 1,
+            "driverId": user.id,
+            "pickup": { "lat": 40.7128, "lng": -74.0060 },
+            "dropOff": { "lat": 40.730610, "lng": -73.935242 },
             "seatsOffered": 3,
             "departureTime": "2025-09-13T10:00:00.000Z"
         };
@@ -38,7 +37,7 @@ describe('API Tests', () => {
 
         const json = await res.json();
         expect(json).toHaveProperty("id");
-        expect(json.userId).toBe(body.userId);
+        expect(json.driverId).toBe(body.driverId);
         
         // Cleanup
         await prisma.trip.delete({ where: { id: json.id } });
@@ -51,10 +50,9 @@ describe('API Tests', () => {
         
         // First, create a trip to get an ID
         const tripBody = {
-            "userId": user.id,
-            "origin": [-74.0060, 40.7128],
-            "destination": [-73.935242, 40.730610],
-            "seatsRequired": 0,
+            "driverId": user.id,
+            "pickup": { "lat": 40.7128, "lng": -74.0060 },
+            "dropOff": { "lat": 40.730610, "lng": -73.935242 },
             "seatsOffered": 3,
             "departureTime": "2025-09-13T10:00:00.000Z"
         };
@@ -67,7 +65,7 @@ describe('API Tests', () => {
         const trip = await createRes.json();
         const tripId = trip.id;
 
-        const req = new Request(`http://localhost:3000/trips/${tripId}/matches`);
+        const req = new Request(`http://localhost:3000/matches/${tripId}`);
         const res = await fetch(req);
         expect(res.status).toBe(200);
 
