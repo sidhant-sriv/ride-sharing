@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String @id @default(uuid())
+  phone String @unique
+  name  String
+  trips Trip[]
+}
+
+model Trip {
+  id             String    @id @default(uuid())
+  user           User      @relation(fields: [userId], references: [id])
+  userId         String
+  status         String    @default("pending")
+  seatsRequired  Int       @default(1)
+  seatsOffered   Int       @default(0)
+  departureTime  DateTime
+
+  // Pre-computed features
+  snappedPolyline  String?   // Store as encoded string
+  routeLengthM     Float?
+  h3Cells          String[]  // Prisma supports native array types for PostgreSQL
+
+  createdAt      DateTime  @default(now())
+}

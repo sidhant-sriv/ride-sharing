@@ -1,0 +1,68 @@
+[dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[server]: Server is running at http://localhost:3000
+Error creating trip: 16 | `)}
+17 | 
+18 | We suggest to move the contents of ${Y(l)} to ${Y(a)} to consolidate your env vars.
+19 | `;throw new Error(u)}else if(t==="warn"){let u=`Conflict for env var${s.length>1?"s":""} ${s.map(c=>W(c)).join(", ")} in ${Y(a)} and ${Y(l)}
+20 | Env vars from ${Y(l)} overwrite the ones from ${Y(a)}
+21 |       `;console.warn(`${Ie("warn(prisma)")} ${u}`)}}}}function Is(e){if(yp(e)){$i(`Environment variables loaded from ${e}`);let r=qi.default.config({path:e,debug:process.env.DOTENV_CONFIG_DEBUG?!0:void 0});return{dotenvResult:Cs(r),message:Ce(`Environment variables loaded from ${xr.default.relative(process.cwd(),e)}`),path:e}}else $i(`Environment variables not found at ${e}`);return null}function Ds(e,r){return e&&r&&xr.default.resolve(e)===xr.default.resolve(r)}function yp(e){return!!(e&&un.default.existsSync(e))}function Vi(e,r){return Object.prototype.hasOwnProperty.call(e,r)}function pn(e,r){let t={};for(let n of Object.keys(e))t[n]=r(e[n],n);return t}function ji(e,r){if(e.length===0)return;let t=e[0];for(let n=1;n<e.length;n++)r(t,e[n])<0&&(t=e[n]);return t}function x(e,r){Object.defineProperty(e,"name",{value:r,configurable:!0})}var ks=new Set,at=(e,r,...t)=>{ks.has(e)||(ks.add(e),_i(r,...t))};var v=class e extends Error{clientVersion;errorCode;retryable;constructor(r,t,n){super(r),this.name="PrismaClie
+
+PrismaClientKnownRequestError: 
+Invalid `prisma.trip.create()` invocation in
+/Users/sidhantsriv/code/projects/ride-sharing/src/trip-service.ts:43:37
+
+  40 const h3Cells = h3.polygonToCells(snappedPathDecoded, h3Resolution);
+  41 
+  42 // 4. Save to Database
+→ 43 const newTrip = await prisma.trip.create(
+Foreign key constraint violated on the constraint: `Trip_userId_fkey`
+       meta: {
+  modelName: "Trip",
+  constraint: "Trip_userId_fkey",
+},
+ clientVersion: "6.16.1",
+       code: "P2003",
+
+      at new PrismaClientKnownRequestError (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:21:1351)
+      at handleRequestError (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:121:7268)
+      at handleAndLogRequestError (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:121:6593)
+      at <anonymous> (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:121:6300)
+
+Error creating trip: 16 | `)}
+17 | 
+18 | We suggest to move the contents of ${Y(l)} to ${Y(a)} to consolidate your env vars.
+19 | `;throw new Error(u)}else if(t==="warn"){let u=`Conflict for env var${s.length>1?"s":""} ${s.map(c=>W(c)).join(", ")} in ${Y(a)} and ${Y(l)}
+20 | Env vars from ${Y(l)} overwrite the ones from ${Y(a)}
+21 |       `;console.warn(`${Ie("warn(prisma)")} ${u}`)}}}}function Is(e){if(yp(e)){$i(`Environment variables loaded from ${e}`);let r=qi.default.config({path:e,debug:process.env.DOTENV_CONFIG_DEBUG?!0:void 0});return{dotenvResult:Cs(r),message:Ce(`Environment variables loaded from ${xr.default.relative(process.cwd(),e)}`),path:e}}else $i(`Environment variables not found at ${e}`);return null}function Ds(e,r){return e&&r&&xr.default.resolve(e)===xr.default.resolve(r)}function yp(e){return!!(e&&un.default.existsSync(e))}function Vi(e,r){return Object.prototype.hasOwnProperty.call(e,r)}function pn(e,r){let t={};for(let n of Object.keys(e))t[n]=r(e[n],n);return t}function ji(e,r){if(e.length===0)return;let t=e[0];for(let n=1;n<e.length;n++)r(t,e[n])<0&&(t=e[n]);return t}function x(e,r){Object.defineProperty(e,"name",{value:r,configurable:!0})}var ks=new Set,at=(e,r,...t)=>{ks.has(e)||(ks.add(e),_i(r,...t))};var v=class e extends Error{clientVersion;errorCode;retryable;constructor(r,t,n){super(r),this.name="PrismaClie
+
+PrismaClientKnownRequestError: 
+Invalid `prisma.trip.create()` invocation in
+/Users/sidhantsriv/code/projects/ride-sharing/src/trip-service.ts:43:37
+
+  40 const h3Cells = h3.polygonToCells(snappedPathDecoded, h3Resolution);
+  41 
+  42 // 4. Save to Database
+→ 43 const newTrip = await prisma.trip.create(
+Foreign key constraint violated on the constraint: `Trip_userId_fkey`
+       meta: {
+  modelName: "Trip",
+  constraint: "Trip_userId_fkey",
+},
+ clientVersion: "6.16.1",
+       code: "P2003",
+
+      at new PrismaClientKnownRequestError (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:21:1351)
+      at handleRequestError (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:121:7268)
+      at handleAndLogRequestError (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:121:6593)
+      at <anonymous> (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:121:6300)
+
+Error finding matches: 2 | 
+3 | const prisma = new PrismaClient();
+4 | 
+5 | export async function findMatches(tripId: string) {
+6 |   const newTrip = await prisma.trip.findUnique({ where: { id: tripId } });
+7 |   if (!newTrip) throw new Error("Trip not found");
+                          ^
+error: Trip not found
+      at <anonymous> (/Users/sidhantsriv/code/projects/ride-sharing/src/match-service.ts:7:23)
+

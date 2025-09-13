@@ -3,13 +3,28 @@
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/mapbox__mapbox-sdk": "^0.16.3",
+    "@types/mapbox__polyline": "^1.0.5",
+    "@types/node": "^24.3.3",
+    "concurrently": "^9.2.1",
+    "prisma": "^6.16.1",
+    "ts-node": "^10.9.2"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.9.2"
+  },
+  "scripts": {
+    "start": "bun run index.ts",
+    "test": "concurrently --kill-others --success first \"bun run start\" \"bun test\""
   },
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.16.2",
+    "@mapbox/polyline": "^1.2.1",
+    "@prisma/client": "^6.16.1",
     "@types/express": "^5.0.3",
-    "express": "^5.1.0"
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "h3-js": "^4.3.0"
   }
 }
