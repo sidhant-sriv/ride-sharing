@@ -4,22 +4,42 @@ A ride-sharing platform built with Node.js, Express, and Prisma. It allows users
 
 ## How to Run the Project
 
-1.  **Install dependencies:**
+1.  **Set up environment variables:**
+
+    Create a `.env` file in the root directory and add the following content. Make sure to replace the placeholder values with your actual credentials.
+
+    ```
+    # Mapbox Access Token
+    MAPBOX_ACCESS_TOKEN="your_mapbox_access_token_here"
+
+    # Database connection URL
+    DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+
+    # Port for the application server
+    PORT=3000
+
+    # PostgreSQL credentials (used by Docker Compose)
+    POSTGRES_USER=johndoe
+    POSTGRES_PASSWORD=randompassword
+    POSTGRES_DB=mydb
+    ```
+
+2.  **Install dependencies:**
     ```bash
     bun install
     ```
 
-2.  **Start the database:**
+3.  **Start the database:**
     ```bash
     docker compose up -d
     ```
 
-3.  **Run database migrations:**
+4.  **Run database migrations:**
     ```bash
     bunx prisma migrate dev
     ```
 
-4.  **Start the server:**
+5.  **Start the server:**
     ```bash
     bun run start
     ```
@@ -34,26 +54,28 @@ Run the test suite using the following command:
 bun test
 ```
 
-## Modules
+## API Routes
 
--   `index.ts`: The main entry point of the application. It initializes the Express server and sets up the API routes.
+### User Routes
 
--   `src/user-service.ts`: Manages all user-related operations, such as creating, retrieving, updating, and deleting users.
+-   `POST /users`: Create a new user.
+-   `GET /users`: Get a list of all users.
+-   `GET /users/:id`: Get a user by their ID.
+-   `PUT /users/:id`: Update a user's information.
+-   `DELETE /users/:id`: Delete a user.
 
--   `src/trip-service.ts`: Handles the business logic for trips. This includes creating new trips, fetching trip details, and managing trip statuses. It integrates with Mapbox to get route information.
+### Trip Routes
 
--   `src/match-service.ts`: Contains the core logic for finding ride matches. It uses geospatial queries and route analysis to find suitable matches between trips.
+-   `POST /trips`: Create a new trip.
+-   `GET /trips/:id`: Get a trip by its ID.
+-   `PUT /trips/:id`: Update a trip's information.
+-   `DELETE /trips/:id`: Delete a trip.
+-   `PUT /trips/:id/status`: Update the status of a trip.
+-   `GET /trips/driver/:driverId`: Get all trips for a specific driver.
 
--   `src/routes/`: This directory contains the API route handlers for users, trips, and matches.
-    -   `user-routes.ts`: Defines the API endpoints for user management (CRUD operations).
-    -   `trip-routes.ts`: Defines the API endpoints for trip management.
-    -   `match-routes.ts`: Defines the API endpoints for finding and managing matches.
+### Match Routes
 
--   `src/utils.ts`: Provides utility functions, such as distance calculation and polyline overlap analysis.
+-   `GET /matches/:tripId`: Find potential matches for a trip.
+-   `GET /matches/existing/:tripId`: Get existing matches for a trip.
+-   `PUT /matches/:matchId/status`: Update the status of a match.
 
--   `src/constants.ts`: Stores constant values used throughout the application, like proximity thresholds and H3 resolution.
-
--   `src/types.ts`: Defines custom TypeScript types and interfaces used in the project.
-
--   `tests/`: Contains the test files for the application.
-    -   `api.test.ts`: Includes tests for the main API endpoints.
