@@ -2,16 +2,18 @@ import { PrismaClient } from '@prisma/client';
 import MapboxClient from '@mapbox/mapbox-sdk';
 import Directions from '@mapbox/mapbox-sdk/services/directions';
 import { calculateDistance, calculatePolylineOverlap, getCanonicalTripIds } from './utils';
+import { 
+    PROXIMITY_THRESHOLD_METERS, 
+    PROXIMITY_THRESHOLD_DEGREES,
+    MIN_POLYLINE_OVERLAP_PERCENTAGE,
+    MAX_DEVIATION_PERCENTAGE
+} from './constants';
+import type { MatchStatusType } from './types';
 
 const prisma = new PrismaClient();
 const mapboxClient = MapboxClient({ accessToken: process.env.MAPBOX_ACCESS_TOKEN! });
 const directionsService = Directions(mapboxClient);
 
-const PROXIMITY_THRESHOLD_METERS = 250;
-// Approx. 1 degree of latitude is 111km
-const PROXIMITY_THRESHOLD_DEGREES = PROXIMITY_THRESHOLD_METERS / 111000;
-
-// Helper function to get route details, using the DB as a cache
 async function getRouteDetails(tripId: string) {
   console.log(` [DB] Looking up trip details for: ${tripId}`);
   let trip = await prisma.trip.findUnique({ 
@@ -147,8 +149,8 @@ export async function findMatchesForTrip(tripId: string) {
       const overlapPercentage = calculatePolylineOverlap(newTrip.polyline!, candidateTrip.polyline!);
       console.log(`    Overlap: ${overlapPercentage.toFixed(2)}%`);
       
-      if (overlapPercentage < 20) {
-        console.log(`    Skipping: overlap ${overlapPercentage.toFixed(2)}% < 20% threshold`);
+      if (overlapPercentage < MIN_POLYLINE_OVERLAP_PERCENTAGE) {
+        console.log(`    Skipping: overlap ${overlapPercentage.toFixed(2)}% < ${MIN_POLYLINE_OVERLAP_PERCENTAGE}% threshold`);
         continue;
       }
 
@@ -176,7 +178,7 @@ export async function findMatchesForTrip(tripId: string) {
       console.log(`[MAPBOX] Combined route: ${combinedDistance}m (+${extraDistance}m), ${combinedDuration}s`);
       console.log(`Deviation: ${deviationPercentage.toFixed(2)}%`);
 
-      if (deviationPercentage <= 30) {
+      if (deviationPercentage <= MAX_DEVIATION_PERCENTAGE) {
         // Calculate final match score
         const matchScore = (0.7 * overlapPercentage) + (0.3 * (100 - deviationPercentage));
         console.log(`   Match score: ${matchScore.toFixed(2)}% (overlap: 70%, deviation: 30%)`);
@@ -198,7 +200,7 @@ export async function findMatchesForTrip(tripId: string) {
         });
         console.log(`   Valid match found and stored!`);
       } else {
-        console.log(`   Rejected: deviation ${deviationPercentage.toFixed(2)}% > 30% threshold`);
+        console.log(`   Rejected: deviation ${deviationPercentage.toFixed(2)}% > ${MAX_DEVIATION_PERCENTAGE}% threshold`);
       }
     } catch (error) {
       console.error(`   Error processing candidate trip ${candidate.id}:`, error);
@@ -272,7 +274,7 @@ export async function getExistingMatches(tripId: string) {
   });
 }
 
-export async function updateMatchStatus(matchId: string, status: 'accepted' | 'rejected') {
+export async function updateMatchStatus(matchId: string, status: MatchStatusType) {
   const match = await prisma.match.update({
     where: { id: matchId },
     data: { 

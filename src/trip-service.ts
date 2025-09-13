@@ -5,13 +5,15 @@ import Matching from '@mapbox/mapbox-sdk/services/map-matching';
 import polyline from '@mapbox/polyline';
 import * as h3 from 'h3-js';
 import { invalidateAndRematch } from './match-service';
+import { H3_RESOLUTION } from './constants';
+import type { CreateTripInput, UpdateTripInput, TripStatusType } from './types';
 
 const prisma = new PrismaClient();
 const mapboxClient = MboxClient({ accessToken: process.env.MAPBOX_ACCESS_TOKEN! });
 const directionsService = Directions(mapboxClient);
 const matchingService = Matching(mapboxClient);
 
-export async function createTrip(tripData: any) {
+export async function createTrip(tripData: CreateTripInput) {
   console.log(`\n[TRIP CREATION] Starting trip creation...`);
   const { 
     driverId, 
@@ -74,9 +76,8 @@ export async function createTrip(tripData: any) {
   // Generate H3 cells for spatial indexing (optional - kept for backward compatibility)
   console.log(`[H3] Generating spatial index cells...`);
   const snappedPathDecoded = polyline.decode(snappedPolylineEncoded, 6); // Decode to [lat, lng]
-  const h3Resolution = 9; // ~175m edge length
-  const h3Cells = h3.polygonToCells(snappedPathDecoded, h3Resolution);
-  console.log(`[H3] Generated ${h3Cells.length} H3 cells at resolution ${h3Resolution}`);
+  const h3Cells = h3.polygonToCells(snappedPathDecoded, H3_RESOLUTION);
+  console.log(`[H3] Generated ${h3Cells.length} H3 cells at resolution ${H3_RESOLUTION}`);
 
   // Create the trip in the database
   console.log(`[DB] Saving trip to database...`);
@@ -133,11 +134,11 @@ export async function getTripById(tripId: string) {
 }
 
 // Function to update trip status
-export async function updateTripStatus(tripId: string, status: string) {
+export async function updateTripStatus(tripId: string, status: TripStatusType) {
   const trip = await prisma.trip.update({
     where: { id: tripId },
     data: { 
-      status: status as any,
+      status: status,
       updatedAt: new Date()
     },
     include: {
@@ -171,7 +172,7 @@ export async function getTripsByDriver(driverId: string) {
   return trips;
 }
 
-export async function updateTrip(tripId: string, tripData: any) {
+export async function updateTrip(tripId: string, tripData: UpdateTripInput) {
   const { pickup, dropOff, departureTime, seatsOffered, seatsRequired } = tripData;
 
   // Check if core fields have changed
