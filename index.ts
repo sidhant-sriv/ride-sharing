@@ -1,5 +1,6 @@
 import express, { type Express, type Request, type Response } from 'express';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 import userRoutes from './src/routes/user-routes';
 import tripRoutes from './src/routes/trip-routes';
 import matchRoutes from './src/routes/match-routes';
@@ -10,6 +11,7 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(morgan('dev'));
 
 // API routes
 app.use('/users', userRoutes);

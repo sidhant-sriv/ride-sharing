@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll } from 'bun:test';
+import { describe, test, expect, afterAll } from 'bun:test';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -94,37 +94,31 @@ describe('Comprehensive Match Service Tests', () => {
     expect(matchesRes.status).toBe(200);
     expect(matches.length).toBe(2); // Should match with rider1 and rider2
 
-    // 6. Update a rider's trip to no longer match
     const updateRes = await fetch(`${API_URL}/trips/${riderTrip1.id}`, {
         method: 'PUT',
         body: JSON.stringify({
-            dropOff: { lat: 34.0522, lng: -118.2437 } // Change destination to LA
+            dropOff: { lat: 34.0522, lng: -118.2437 } 
         }),
         headers: { 'Content-Type': 'application/json' },
     });
     expect(updateRes.status).toBe(200);
     
-    // Re-run matching
     matchesRes = await fetch(`${API_URL}/matches/${driverTrip.id}`);
     matches = await matchesRes.json();
     expect(matchesRes.status).toBe(200);
-    expect(matches.length).toBe(1); // Should only match with rider2 now
-
-    // 7. Delete a rider's trip
+    expect(matches.length).toBe(1); 
     const deleteRes = await fetch(`${API_URL}/trips/${riderTrip2.id}`, {
         method: 'DELETE'
     });
     expect(deleteRes.status).toBe(200);
 
-    // Re-run matching
     matchesRes = await fetch(`${API_URL}/matches/${driverTrip.id}`);
     matches = await matchesRes.json();
     expect(matchesRes.status).toBe(200);
-    expect(matches.length).toBe(0); // Should have no matches now
-  }, 30000); // 30 second timeout for this test
+    expect(matches.length).toBe(0); 
+  }, 30000); 
 
   afterAll(async () => {
-    // Cleanup
     for (const trip of trips) {
       await prisma.trip.delete({ where: { id: trip.id } }).catch(() => {});
     }

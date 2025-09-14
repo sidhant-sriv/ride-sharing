@@ -1,7 +1,7 @@
 /**
  * The proximity threshold in meters for considering two trips close enough for a match.
  */
-export const PROXIMITY_THRESHOLD_METERS = 175;
+export const PROXIMITY_THRESHOLD_METERS = 500;
 
 /**
  * The proximity threshold in degrees, converted from meters.

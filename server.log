@@ -1,0 +1,2172 @@
+[dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[server]: Server is running at http://localhost:3000
+[0mPOST /users [32m201[0m 15.021 ms - 221[0m
+[0mPOST /users [32m201[0m 5.782 ms - 221[0m
+[0mPOST /users [32m201[0m 4.226 ms - 221[0m
+[0mPOST /users [32m201[0m 3.277 ms - 221[0m
+[0mPOST /users [32m201[0m 3.862 ms - 221[0m
+[0mPOST /users [32m201[0m 4.066 ms - 221[0m
+[0mPOST /users [32m201[0m 3.665 ms - 221[0m
+[INFO] 2025-09-14T09:34:37.440Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:34:37.440Z - [INPUT] Driver: 8220097d-67b8-4db4-a277-e240a4d27ef4, Seats Offered: 3, Seats Required: 0, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:34:37.440Z - [ROUTE] 12.902819754133755, 77.67510455869504 → 12.905852257601506, 77.64882508835207
+[INFO] 2025-09-14T09:34:37.440Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:34:37.440Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67510455869504,
+        12.902819754133755
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882508835207,
+        12.905852257601506
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:34:37.907Z - [MAPBOX] Directions response: 7088.585m, 1397.348s
+[INFO] 2025-09-14T09:34:37.907Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:34:37.907Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:34:37.908Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:34:38.219Z - [MAPBOX] Map-matched route: 7088.567m, confidence: 0.983244
+[INFO] 2025-09-14T09:34:38.219Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:34:38.233Z - [H3] Generated 44 H3 cells at resolution 9
+[INFO] 2025-09-14T09:34:38.233Z - [DB] Saving trip to database...
+prisma:info Starting a postgresql pool with 23 connections.
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:34:38.261Z - [DB] Trip created successfully: cb9fcaf4-0a3b-48cd-854d-bf349596ed48
+[INFO] 2025-09-14T09:34:38.261Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 821.269 ms - 872[0m
+[INFO] 2025-09-14T09:34:38.263Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:34:38.263Z - [INPUT] Driver: 8c83bbfe-271b-4bd0-b0b9-dd80f02c2fa8, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:34:38.263Z - [ROUTE] 12.91166687264877, 77.67624545824033 → 12.908934647787344, 77.64882722904318
+[INFO] 2025-09-14T09:34:38.263Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:34:38.263Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67624545824033,
+        12.91166687264877
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882722904318,
+        12.908934647787344
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:34:38.302Z - [MAPBOX] Directions response: 5502.919m, 1025.826s
+[INFO] 2025-09-14T09:34:38.302Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:34:38.302Z - [DECODE] Decoded 23 path points
+[DEBUG] 2025-09-14T09:34:38.302Z - [MAPBOX] Map-matching API request with 23 points
+[INFO] 2025-09-14T09:34:38.620Z - [MAPBOX] Map-matched route: 5502.739m, confidence: 0.983263
+[INFO] 2025-09-14T09:34:38.620Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:34:38.622Z - [H3] Generated 27 H3 cells at resolution 9
+[INFO] 2025-09-14T09:34:38.622Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:34:38.632Z - [DB] Trip created successfully: 81423478-6664-4020-b11d-6986d4c9dafc
+[INFO] 2025-09-14T09:34:38.632Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 369.158 ms - 812[0m
+[INFO] 2025-09-14T09:34:38.633Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:34:38.633Z - [INPUT] Driver: b9f1cebc-d01b-4dad-9f03-6c236fbd019a, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:30:00.000Z
+[INFO] 2025-09-14T09:34:38.633Z - [ROUTE] 12.90284, 77.675083 → 12.912047, 77.638847
+[INFO] 2025-09-14T09:34:38.633Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:34:38.633Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.675083,
+        12.90284
+      ]
+    },
+    {
+      "coordinates": [
+        77.638847,
+        12.912047
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:34:38.667Z - [MAPBOX] Directions response: 7066.472m, 1265.325s
+[INFO] 2025-09-14T09:34:38.667Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:34:38.667Z - [DECODE] Decoded 37 path points
+[DEBUG] 2025-09-14T09:34:38.667Z - [MAPBOX] Map-matching API request with 37 points
+[INFO] 2025-09-14T09:34:38.945Z - [MAPBOX] Map-matched route: 7066.462m, confidence: 0.983047
+[INFO] 2025-09-14T09:34:38.945Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:34:38.950Z - [H3] Generated 55 H3 cells at resolution 9
+[INFO] 2025-09-14T09:34:38.950Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:34:38.960Z - [DB] Trip created successfully: 6f44efb2-acf2-48ff-a101-2c21a1444cf9
+[INFO] 2025-09-14T09:34:38.960Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 326.592 ms - 852[0m
+[INFO] 2025-09-14T09:34:38.962Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:34:38.962Z - [INPUT] Driver: 011ffcb8-a8e4-4be6-93bd-cd59f4507a1c, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:34:38.962Z - [ROUTE] 12.903614, 77.527222 → 12.978221, 77.595079
+[INFO] 2025-09-14T09:34:38.962Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:34:38.962Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.527222,
+        12.903614
+      ]
+    },
+    {
+      "coordinates": [
+        77.595079,
+        12.978221
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:34:39.001Z - [MAPBOX] Directions response: 16684.352m, 3254.954s
+[INFO] 2025-09-14T09:34:39.001Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:34:39.001Z - [DECODE] Decoded 39 path points
+[DEBUG] 2025-09-14T09:34:39.001Z - [MAPBOX] Map-matching API request with 39 points
+[INFO] 2025-09-14T09:34:39.415Z - [MAPBOX] Map-matched route: 16684.357m, confidence: 0.984477
+[INFO] 2025-09-14T09:34:39.415Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:34:39.424Z - [H3] Generated 179 H3 cells at resolution 9
+[INFO] 2025-09-14T09:34:39.424Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:34:39.436Z - [DB] Trip created successfully: 2573d091-2c55-4ef6-ac3d-95959a42d91a
+[INFO] 2025-09-14T09:34:39.436Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 474.669 ms - 882[0m
+[INFO] 2025-09-14T09:34:39.439Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:34:39.439Z - [INPUT] Driver: f5e865e6-4b1e-4b1c-a2a1-c6a0d9888517, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T19:30:00.000Z
+[INFO] 2025-09-14T09:34:39.439Z - [ROUTE] 12.91997, 77.691845 → 12.969325, 77.641523
+[INFO] 2025-09-14T09:34:39.439Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:34:39.439Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.691845,
+        12.91997
+      ]
+    },
+    {
+      "coordinates": [
+        77.641523,
+        12.969325
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:34:39.492Z - [MAPBOX] Directions response: 15612.322m, 2479.908s
+[INFO] 2025-09-14T09:34:39.492Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:34:39.492Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:34:39.493Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:34:39.856Z - [MAPBOX] Map-matched route: 15612.365m, confidence: 0.98381
+[INFO] 2025-09-14T09:34:39.856Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:34:39.863Z - [H3] Generated 149 H3 cells at resolution 9
+[INFO] 2025-09-14T09:34:39.863Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:34:39.873Z - [DB] Trip created successfully: debf8680-5d67-40bf-9eb4-a6ccef797ed5
+[INFO] 2025-09-14T09:34:39.873Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 434.474 ms - 863[0m
+[INFO] 2025-09-14T09:34:39.875Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:34:39.875Z - [INPUT] Driver: af8aecf5-4b40-42d7-8e3d-e24692e003aa, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:34:39.875Z - [ROUTE] 12.979808, 77.590718 → 12.994445, 77.728798
+[INFO] 2025-09-14T09:34:39.875Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:34:39.875Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.590718,
+        12.979808
+      ]
+    },
+    {
+      "coordinates": [
+        77.728798,
+        12.994445
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:34:39.939Z - [MAPBOX] Directions response: 18751.553m, 3523.673s
+[INFO] 2025-09-14T09:34:39.939Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:34:39.939Z - [DECODE] Decoded 34 path points
+[DEBUG] 2025-09-14T09:34:39.939Z - [MAPBOX] Map-matching API request with 34 points
+[INFO] 2025-09-14T09:34:40.648Z - [MAPBOX] Map-matched route: 18740.355m, confidence: 0.98556
+[INFO] 2025-09-14T09:34:40.648Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:34:40.650Z - [H3] Generated 71 H3 cells at resolution 9
+[INFO] 2025-09-14T09:34:40.650Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:34:40.663Z - [DB] Trip created successfully: 48d3e105-fd25-42f0-9931-19f0e691701b
+[INFO] 2025-09-14T09:34:40.663Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 788.258 ms - 856[0m
+[INFO] 2025-09-14T09:34:40.666Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:34:40.666Z - [INPUT] Driver: b92ac3e0-2518-42d7-b424-99521d04212c, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:00:00.000Z
+[INFO] 2025-09-14T09:34:40.666Z - [ROUTE] 12.97183, 77.595872 → 13.027392, 77.567546
+[INFO] 2025-09-14T09:34:40.666Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:34:40.666Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.595872,
+        12.97183
+      ]
+    },
+    {
+      "coordinates": [
+        77.567546,
+        13.027392
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:34:40.705Z - [MAPBOX] Directions response: 10137.425m, 2071.112s
+[INFO] 2025-09-14T09:34:40.705Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:34:40.705Z - [DECODE] Decoded 28 path points
+[DEBUG] 2025-09-14T09:34:40.705Z - [MAPBOX] Map-matching API request with 28 points
+[INFO] 2025-09-14T09:34:41.241Z - [MAPBOX] Map-matched route: 10137.251m, confidence: 0.982068
+[INFO] 2025-09-14T09:34:41.241Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:34:41.242Z - [H3] Generated 18 H3 cells at resolution 9
+[INFO] 2025-09-14T09:34:41.242Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:34:41.255Z - [DB] Trip created successfully: 138a2c76-5d76-4060-916c-8d704e5facfd
+[INFO] 2025-09-14T09:34:41.255Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 588.966 ms - 810[0m
+[INFO] 2025-09-14T09:34:41.257Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:34:41.258Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip ENTERED ##
+[INFO] 2025-09-14T09:34:41.258Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:34:41.258Z - 
+ [MATCHING] Starting match search for trip: cb9fcaf4-0a3b-48cd-854d-bf349596ed48
+[INFO] 2025-09-14T09:34:41.258Z -  [STEP 1] Fetching main trip details...
+[INFO] 2025-09-14T09:34:41.258Z -  [DB] Looking up trip details for: cb9fcaf4-0a3b-48cd-854d-bf349596ed48
+prisma:info Starting a postgresql pool with 23 connections.
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+[INFO] 2025-09-14T09:34:41.275Z - [TRIP] Found trip from User A (12.90281975413376, 77.67510455869504) → (12.90585225760151, 77.64882508835207)
+[INFO] 2025-09-14T09:34:41.275Z -  [CACHE] Using cached route data: 7088.567m
+[INFO] 2025-09-14T09:34:41.275Z -  [STEP 2] Pre-filtering candidates from database...
+[DEBUG] 2025-09-14T09:34:41.275Z -  [FILTER] Time window: 2025-09-14T17:00:00.000Z to 2025-09-14T18:00:00.000Z
+[DEBUG] 2025-09-14T09:34:41.275Z -  [FILTER] Bounding box: 0.0045 degrees
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" <> $1 AND "public"."trips"."status" = CAST($2::text AS "public"."TripStatus") AND "public"."trips"."departure_time" >= $3 AND "public"."trips"."departure_time" <= $4 AND "public"."trips"."seats_offered" >= $5 AND "public"."trips"."seats_required" <= $6 AND "public"."trips"."pickup_lat" >= $7 AND "public"."trips"."pickup_lat" <= $8 AND "public"."trips"."pickup_lng" >= $9 AND "public"."trips"."pickup_lng" <= $10) OFFSET $11
+[INFO] 2025-09-14T09:34:41.281Z -  [DB] Found 0 potential candidates
+[INFO] 2025-09-14T09:34:41.281Z -  [STEP 2.5] Filtering candidates within 500m...
+[INFO] 2025-09-14T09:34:41.281Z -  [FILTER] Found 0 candidates within proximity
+[INFO] 2025-09-14T09:34:41.281Z -  [STEP 3] Starting detailed analysis with Mapbox...
+[INFO] 2025-09-14T09:34:41.281Z - 
+[ANALYSIS] Completed analysis. Found 0 valid matches
+[INFO] 2025-09-14T09:34:41.281Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:34:41.281Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip EXITING ##
+[INFO] 2025-09-14T09:34:41.281Z - 
+ [MATCHING] #############################################
+[0mGET /matches/cb9fcaf4-0a3b-48cd-854d-bf349596ed48 [32m200[0m 25.358 ms - 25[0m
+[0mPOST /users [32m201[0m 3.876 ms - 221[0m
+[0mPOST /users [32m201[0m 3.600 ms - 221[0m
+[0mPOST /users [32m201[0m 3.067 ms - 221[0m
+[0mPOST /users [32m201[0m 2.471 ms - 221[0m
+[0mPOST /users [32m201[0m 3.897 ms - 221[0m
+[0mPOST /users [32m201[0m 2.900 ms - 221[0m
+[0mPOST /users [32m201[0m 3.441 ms - 221[0m
+[INFO] 2025-09-14T09:35:24.515Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:35:24.515Z - [INPUT] Driver: 6a4e3f64-d1e5-4197-8c44-24b160657889, Seats Offered: 3, Seats Required: 0, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:35:24.515Z - [ROUTE] 12.902819754133755, 77.67510455869504 → 12.905852257601506, 77.64882508835207
+[INFO] 2025-09-14T09:35:24.515Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:35:24.515Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67510455869504,
+        12.902819754133755
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882508835207,
+        12.905852257601506
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:35:24.891Z - [MAPBOX] Directions response: 7088.585m, 1356.08s
+[INFO] 2025-09-14T09:35:24.891Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:35:24.891Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:35:24.891Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:35:25.396Z - [MAPBOX] Map-matched route: 7088.567m, confidence: 0.983244
+[INFO] 2025-09-14T09:35:25.396Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:35:25.397Z - [H3] Generated 44 H3 cells at resolution 9
+[INFO] 2025-09-14T09:35:25.397Z - [DB] Saving trip to database...
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:35:25.409Z - [DB] Trip created successfully: 8450dfa4-c768-477e-b787-0a6c84f4d9a5
+[INFO] 2025-09-14T09:35:25.409Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 894.287 ms - 872[0m
+[INFO] 2025-09-14T09:35:25.411Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:35:25.411Z - [INPUT] Driver: 900f74ec-4ea6-4e3d-8beb-72046ffa917a, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:35:25.411Z - [ROUTE] 12.91166687264877, 77.67624545824033 → 12.908934647787344, 77.64882722904318
+[INFO] 2025-09-14T09:35:25.411Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:35:25.411Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67624545824033,
+        12.91166687264877
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882722904318,
+        12.908934647787344
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:35:25.749Z - [MAPBOX] Directions response: 5502.919m, 977.841s
+[INFO] 2025-09-14T09:35:25.749Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:35:25.749Z - [DECODE] Decoded 23 path points
+[DEBUG] 2025-09-14T09:35:25.749Z - [MAPBOX] Map-matching API request with 23 points
+[INFO] 2025-09-14T09:35:26.055Z - [MAPBOX] Map-matched route: 5502.739m, confidence: 0.983263
+[INFO] 2025-09-14T09:35:26.055Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:35:26.057Z - [H3] Generated 27 H3 cells at resolution 9
+[INFO] 2025-09-14T09:35:26.057Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:35:26.073Z - [DB] Trip created successfully: 496832db-2556-4ae2-b0da-a9019f5944b1
+[INFO] 2025-09-14T09:35:26.073Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 661.755 ms - 811[0m
+[INFO] 2025-09-14T09:35:26.075Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:35:26.075Z - [INPUT] Driver: b15c9e84-b011-421c-9c0d-bf770a7c5a6f, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:30:00.000Z
+[INFO] 2025-09-14T09:35:26.075Z - [ROUTE] 12.90284, 77.675083 → 12.912047, 77.638847
+[INFO] 2025-09-14T09:35:26.075Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:35:26.075Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.675083,
+        12.90284
+      ]
+    },
+    {
+      "coordinates": [
+        77.638847,
+        12.912047
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:35:26.281Z - [MAPBOX] Directions response: 7066.472m, 1223.062s
+[INFO] 2025-09-14T09:35:26.282Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:35:26.282Z - [DECODE] Decoded 37 path points
+[DEBUG] 2025-09-14T09:35:26.282Z - [MAPBOX] Map-matching API request with 37 points
+[INFO] 2025-09-14T09:35:26.584Z - [MAPBOX] Map-matched route: 7066.462m, confidence: 0.983047
+[INFO] 2025-09-14T09:35:26.584Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:35:26.586Z - [H3] Generated 55 H3 cells at resolution 9
+[INFO] 2025-09-14T09:35:26.586Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:35:26.597Z - [DB] Trip created successfully: 2c984458-9a2d-431f-80f7-e650a91086f0
+[INFO] 2025-09-14T09:35:26.597Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 523.159 ms - 852[0m
+[INFO] 2025-09-14T09:35:26.599Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:35:26.599Z - [INPUT] Driver: fe4790c9-d7bc-4e1d-98cb-560c1ae670a7, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:35:26.599Z - [ROUTE] 12.903614, 77.527222 → 12.978221, 77.595079
+[INFO] 2025-09-14T09:35:26.599Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:35:26.599Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.527222,
+        12.903614
+      ]
+    },
+    {
+      "coordinates": [
+        77.595079,
+        12.978221
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:35:26.872Z - [MAPBOX] Directions response: 16684.352m, 3272.739s
+[INFO] 2025-09-14T09:35:26.872Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:35:26.872Z - [DECODE] Decoded 39 path points
+[DEBUG] 2025-09-14T09:35:26.872Z - [MAPBOX] Map-matching API request with 39 points
+[INFO] 2025-09-14T09:35:27.312Z - [MAPBOX] Map-matched route: 16684.357m, confidence: 0.984477
+[INFO] 2025-09-14T09:35:27.313Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:35:27.315Z - [H3] Generated 179 H3 cells at resolution 9
+[INFO] 2025-09-14T09:35:27.315Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:35:27.330Z - [DB] Trip created successfully: 24b20322-d952-4a4f-b090-8b280941a4de
+[INFO] 2025-09-14T09:35:27.330Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 731.004 ms - 882[0m
+[INFO] 2025-09-14T09:35:27.332Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:35:27.332Z - [INPUT] Driver: 5e07bcc2-3a94-40b8-8a92-390df3397220, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T19:30:00.000Z
+[INFO] 2025-09-14T09:35:27.332Z - [ROUTE] 12.91997, 77.691845 → 12.969325, 77.641523
+[INFO] 2025-09-14T09:35:27.332Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:35:27.332Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.691845,
+        12.91997
+      ]
+    },
+    {
+      "coordinates": [
+        77.641523,
+        12.969325
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:35:27.567Z - [MAPBOX] Directions response: 15612.322m, 2472.694s
+[INFO] 2025-09-14T09:35:27.567Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:35:27.567Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:35:27.567Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:35:27.938Z - [MAPBOX] Map-matched route: 15612.365m, confidence: 0.98381
+[INFO] 2025-09-14T09:35:27.939Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:35:27.942Z - [H3] Generated 149 H3 cells at resolution 9
+[INFO] 2025-09-14T09:35:27.942Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:35:27.958Z - [DB] Trip created successfully: 2c6c8a3a-3da7-4189-a1b9-d67dcc4363ce
+[INFO] 2025-09-14T09:35:27.959Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 627.141 ms - 863[0m
+[INFO] 2025-09-14T09:35:27.961Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:35:27.961Z - [INPUT] Driver: def9008c-e33c-45cf-a273-977c63008b34, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:35:27.961Z - [ROUTE] 12.979808, 77.590718 → 12.994445, 77.728798
+[INFO] 2025-09-14T09:35:27.961Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:35:27.961Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.590718,
+        12.979808
+      ]
+    },
+    {
+      "coordinates": [
+        77.728798,
+        12.994445
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:35:28.223Z - [MAPBOX] Directions response: 18751.553m, 3495.82s
+[INFO] 2025-09-14T09:35:28.223Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:35:28.223Z - [DECODE] Decoded 34 path points
+[DEBUG] 2025-09-14T09:35:28.223Z - [MAPBOX] Map-matching API request with 34 points
+[INFO] 2025-09-14T09:35:28.776Z - [MAPBOX] Map-matched route: 18740.355m, confidence: 0.98556
+[INFO] 2025-09-14T09:35:28.776Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:35:28.779Z - [H3] Generated 71 H3 cells at resolution 9
+[INFO] 2025-09-14T09:35:28.779Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:35:28.794Z - [DB] Trip created successfully: b75849e0-3b02-4bbf-ad70-4c1ec60d35e1
+[INFO] 2025-09-14T09:35:28.794Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 833.850 ms - 856[0m
+[INFO] 2025-09-14T09:35:28.797Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:35:28.797Z - [INPUT] Driver: 51f2c1f4-fea5-4ea6-bc21-27ca0a6d6e4d, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:00:00.000Z
+[INFO] 2025-09-14T09:35:28.797Z - [ROUTE] 12.97183, 77.595872 → 13.027392, 77.567546
+[INFO] 2025-09-14T09:35:28.797Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:35:28.797Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.595872,
+        12.97183
+      ]
+    },
+    {
+      "coordinates": [
+        77.567546,
+        13.027392
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:35:29.029Z - [MAPBOX] Directions response: 10137.425m, 2081.985s
+[INFO] 2025-09-14T09:35:29.029Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:35:29.029Z - [DECODE] Decoded 28 path points
+[DEBUG] 2025-09-14T09:35:29.030Z - [MAPBOX] Map-matching API request with 28 points
+[INFO] 2025-09-14T09:35:29.535Z - [MAPBOX] Map-matched route: 10137.251m, confidence: 0.982068
+[INFO] 2025-09-14T09:35:29.535Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:35:29.536Z - [H3] Generated 18 H3 cells at resolution 9
+[INFO] 2025-09-14T09:35:29.536Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:35:29.548Z - [DB] Trip created successfully: 1c2f881d-35da-4227-9956-46423afc6869
+[INFO] 2025-09-14T09:35:29.548Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 751.265 ms - 810[0m
+[INFO] 2025-09-14T09:35:29.549Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:35:29.549Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip ENTERED ##
+[INFO] 2025-09-14T09:35:29.549Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:35:29.549Z - 
+ [MATCHING] Starting match search for trip: 8450dfa4-c768-477e-b787-0a6c84f4d9a5
+[INFO] 2025-09-14T09:35:29.549Z -  [STEP 1] Fetching main trip details...
+[INFO] 2025-09-14T09:35:29.549Z -  [DB] Looking up trip details for: 8450dfa4-c768-477e-b787-0a6c84f4d9a5
+prisma:query SELECT 1
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+[INFO] 2025-09-14T09:35:29.554Z - [TRIP] Found trip from User A (12.90281975413376, 77.67510455869504) → (12.90585225760151, 77.64882508835207)
+[INFO] 2025-09-14T09:35:29.554Z -  [CACHE] Using cached route data: 7088.567m
+[INFO] 2025-09-14T09:35:29.554Z -  [STEP 2] Pre-filtering candidates from database...
+[DEBUG] 2025-09-14T09:35:29.554Z -  [FILTER] Time window: 2025-09-14T17:00:00.000Z to 2025-09-14T18:00:00.000Z
+[DEBUG] 2025-09-14T09:35:29.554Z -  [FILTER] Bounding box: 0.0045 degrees
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" <> $1 AND "public"."trips"."status" = CAST($2::text AS "public"."TripStatus") AND "public"."trips"."departure_time" >= $3 AND "public"."trips"."departure_time" <= $4 AND "public"."trips"."seats_offered" >= $5 AND "public"."trips"."seats_required" <= $6 AND "public"."trips"."pickup_lat" >= $7 AND "public"."trips"."pickup_lat" <= $8 AND "public"."trips"."pickup_lng" >= $9 AND "public"."trips"."pickup_lng" <= $10) OFFSET $11
+[INFO] 2025-09-14T09:35:29.559Z -  [DB] Found 0 potential candidates
+[INFO] 2025-09-14T09:35:29.559Z -  [STEP 2.5] Filtering candidates within 500m...
+[INFO] 2025-09-14T09:35:29.559Z -  [FILTER] Found 0 candidates within proximity
+[INFO] 2025-09-14T09:35:29.559Z -  [STEP 3] Starting detailed analysis with Mapbox...
+[INFO] 2025-09-14T09:35:29.559Z - 
+[ANALYSIS] Completed analysis. Found 0 valid matches
+[INFO] 2025-09-14T09:35:29.559Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:35:29.559Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip EXITING ##
+[INFO] 2025-09-14T09:35:29.559Z - 
+ [MATCHING] #############################################
+[0mGET /matches/8450dfa4-c768-477e-b787-0a6c84f4d9a5 [32m200[0m 9.920 ms - 25[0m
+[0mPOST /users [32m201[0m 5.488 ms - 221[0m
+[0mPOST /users [32m201[0m 2.542 ms - 221[0m
+[0mPOST /users [32m201[0m 4.346 ms - 221[0m
+[0mPOST /users [32m201[0m 2.608 ms - 221[0m
+[0mPOST /users [32m201[0m 4.239 ms - 221[0m
+[0mPOST /users [32m201[0m 3.303 ms - 221[0m
+[0mPOST /users [32m201[0m 3.193 ms - 221[0m
+[INFO] 2025-09-14T09:36:32.634Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:36:32.634Z - [INPUT] Driver: a32983da-8e87-4bee-a356-bb2b45437f48, Seats Offered: 3, Seats Required: 0, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:36:32.634Z - [ROUTE] 12.902819754133755, 77.67510455869504 → 12.905852257601506, 77.64882508835207
+[INFO] 2025-09-14T09:36:32.634Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:36:32.634Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67510455869504,
+        12.902819754133755
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882508835207,
+        12.905852257601506
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:36:32.980Z - [MAPBOX] Directions response: 7088.585m, 1407.59s
+[INFO] 2025-09-14T09:36:32.980Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:36:32.980Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:36:32.980Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:36:33.297Z - [MAPBOX] Map-matched route: 7088.567m, confidence: 0.983244
+[INFO] 2025-09-14T09:36:33.298Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:36:33.299Z - [H3] Generated 44 H3 cells at resolution 9
+[INFO] 2025-09-14T09:36:33.299Z - [DB] Saving trip to database...
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:36:33.314Z - [DB] Trip created successfully: b00d06f0-2f0a-4a62-99bc-ceb551d8255a
+[INFO] 2025-09-14T09:36:33.314Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 680.721 ms - 872[0m
+[INFO] 2025-09-14T09:36:33.316Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:36:33.316Z - [INPUT] Driver: a3f134d2-4946-428e-b85e-0e4e63fe89f3, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:36:33.316Z - [ROUTE] 12.91166687264877, 77.67624545824033 → 12.908934647787344, 77.64882722904318
+[INFO] 2025-09-14T09:36:33.316Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:36:33.316Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67624545824033,
+        12.91166687264877
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882722904318,
+        12.908934647787344
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:36:33.647Z - [MAPBOX] Directions response: 5502.919m, 1033.769s
+[INFO] 2025-09-14T09:36:33.648Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:36:33.648Z - [DECODE] Decoded 23 path points
+[DEBUG] 2025-09-14T09:36:33.648Z - [MAPBOX] Map-matching API request with 23 points
+[INFO] 2025-09-14T09:36:33.919Z - [MAPBOX] Map-matched route: 5502.739m, confidence: 0.983263
+[INFO] 2025-09-14T09:36:33.919Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:36:33.920Z - [H3] Generated 27 H3 cells at resolution 9
+[INFO] 2025-09-14T09:36:33.920Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:36:33.936Z - [DB] Trip created successfully: f4ef10b9-f770-4c11-9132-511b830e569f
+[INFO] 2025-09-14T09:36:33.936Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 619.730 ms - 812[0m
+[INFO] 2025-09-14T09:36:33.938Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:36:33.938Z - [INPUT] Driver: ad4c6da0-12b5-429b-a5cc-c46f606c62ba, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:30:00.000Z
+[INFO] 2025-09-14T09:36:33.938Z - [ROUTE] 12.90284, 77.675083 → 12.912047, 77.638847
+[INFO] 2025-09-14T09:36:33.938Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:36:33.938Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.675083,
+        12.90284
+      ]
+    },
+    {
+      "coordinates": [
+        77.638847,
+        12.912047
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:36:34.142Z - [MAPBOX] Directions response: 7066.472m, 1278.318s
+[INFO] 2025-09-14T09:36:34.142Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:36:34.142Z - [DECODE] Decoded 37 path points
+[DEBUG] 2025-09-14T09:36:34.142Z - [MAPBOX] Map-matching API request with 37 points
+[INFO] 2025-09-14T09:36:34.428Z - [MAPBOX] Map-matched route: 7066.462m, confidence: 0.983047
+[INFO] 2025-09-14T09:36:34.428Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:36:34.430Z - [H3] Generated 55 H3 cells at resolution 9
+[INFO] 2025-09-14T09:36:34.430Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:36:34.440Z - [DB] Trip created successfully: 5cd1a7ea-df88-42cf-9321-f5e6cd75c464
+[INFO] 2025-09-14T09:36:34.440Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 502.519 ms - 852[0m
+[INFO] 2025-09-14T09:36:34.442Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:36:34.442Z - [INPUT] Driver: fc1c6a6e-94d4-4b60-b36a-6040294f9100, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:36:34.442Z - [ROUTE] 12.903614, 77.527222 → 12.978221, 77.595079
+[INFO] 2025-09-14T09:36:34.442Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:36:34.442Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.527222,
+        12.903614
+      ]
+    },
+    {
+      "coordinates": [
+        77.595079,
+        12.978221
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:36:34.734Z - [MAPBOX] Directions response: 16684.352m, 3159.552s
+[INFO] 2025-09-14T09:36:34.734Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:36:34.734Z - [DECODE] Decoded 39 path points
+[DEBUG] 2025-09-14T09:36:34.734Z - [MAPBOX] Map-matching API request with 39 points
+[INFO] 2025-09-14T09:36:35.178Z - [MAPBOX] Map-matched route: 16684.357m, confidence: 0.984477
+[INFO] 2025-09-14T09:36:35.178Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:36:35.181Z - [H3] Generated 179 H3 cells at resolution 9
+[INFO] 2025-09-14T09:36:35.181Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:36:35.191Z - [DB] Trip created successfully: c9996bce-9c5c-44e8-b981-0b1718714ad7
+[INFO] 2025-09-14T09:36:35.191Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 749.558 ms - 882[0m
+[INFO] 2025-09-14T09:36:35.194Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:36:35.194Z - [INPUT] Driver: 759e7b14-35b8-41ba-a883-13acb23ef4fb, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T19:30:00.000Z
+[INFO] 2025-09-14T09:36:35.194Z - [ROUTE] 12.91997, 77.691845 → 12.969325, 77.641523
+[INFO] 2025-09-14T09:36:35.194Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:36:35.194Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.691845,
+        12.91997
+      ]
+    },
+    {
+      "coordinates": [
+        77.641523,
+        12.969325
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:36:35.396Z - [MAPBOX] Directions response: 15612.322m, 2474.014s
+[INFO] 2025-09-14T09:36:35.396Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:36:35.396Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:36:35.397Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:36:35.889Z - [MAPBOX] Map-matched route: 15612.365m, confidence: 0.98381
+[INFO] 2025-09-14T09:36:35.889Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:36:35.890Z - [H3] Generated 149 H3 cells at resolution 9
+[INFO] 2025-09-14T09:36:35.890Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:36:35.901Z - [DB] Trip created successfully: 3f1c615e-d25f-4d65-b7a5-859e92a2faa5
+[INFO] 2025-09-14T09:36:35.901Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 706.955 ms - 863[0m
+[INFO] 2025-09-14T09:36:35.903Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:36:35.903Z - [INPUT] Driver: b235bc46-b31e-4c99-acfd-49089ff5e28e, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:36:35.903Z - [ROUTE] 12.979808, 77.590718 → 12.994445, 77.728798
+[INFO] 2025-09-14T09:36:35.903Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:36:35.903Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.590718,
+        12.979808
+      ]
+    },
+    {
+      "coordinates": [
+        77.728798,
+        12.994445
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:36:36.179Z - [MAPBOX] Directions response: 18751.553m, 3484.617s
+[INFO] 2025-09-14T09:36:36.179Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:36:36.179Z - [DECODE] Decoded 34 path points
+[DEBUG] 2025-09-14T09:36:36.179Z - [MAPBOX] Map-matching API request with 34 points
+[INFO] 2025-09-14T09:36:36.738Z - [MAPBOX] Map-matched route: 18740.355m, confidence: 0.98556
+[INFO] 2025-09-14T09:36:36.738Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:36:36.740Z - [H3] Generated 71 H3 cells at resolution 9
+[INFO] 2025-09-14T09:36:36.740Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:36:36.752Z - [DB] Trip created successfully: 1bdcade3-dc8f-4987-8241-e2960381df85
+[INFO] 2025-09-14T09:36:36.752Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 849.855 ms - 855[0m
+[INFO] 2025-09-14T09:36:36.755Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:36:36.755Z - [INPUT] Driver: f42f98d2-704a-466e-9ce5-4253c7286fe3, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:00:00.000Z
+[INFO] 2025-09-14T09:36:36.755Z - [ROUTE] 12.97183, 77.595872 → 13.027392, 77.567546
+[INFO] 2025-09-14T09:36:36.755Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:36:36.755Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.595872,
+        12.97183
+      ]
+    },
+    {
+      "coordinates": [
+        77.567546,
+        13.027392
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:36:36.980Z - [MAPBOX] Directions response: 10137.425m, 2027.284s
+[INFO] 2025-09-14T09:36:36.980Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:36:36.980Z - [DECODE] Decoded 28 path points
+[DEBUG] 2025-09-14T09:36:36.980Z - [MAPBOX] Map-matching API request with 28 points
+[INFO] 2025-09-14T09:36:37.737Z - [MAPBOX] Map-matched route: 10137.251m, confidence: 0.982068
+[INFO] 2025-09-14T09:36:37.737Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:36:37.738Z - [H3] Generated 18 H3 cells at resolution 9
+[INFO] 2025-09-14T09:36:37.738Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:36:37.753Z - [DB] Trip created successfully: eb80b3e5-3d0d-4f47-9f1f-24f9618a42c9
+[INFO] 2025-09-14T09:36:37.753Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 998.409 ms - 810[0m
+[INFO] 2025-09-14T09:36:37.755Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:36:37.755Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip ENTERED ##
+[INFO] 2025-09-14T09:36:37.755Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:36:37.755Z - 
+ [MATCHING] Starting match search for trip: b00d06f0-2f0a-4a62-99bc-ceb551d8255a
+[INFO] 2025-09-14T09:36:37.755Z -  [STEP 1] Fetching main trip details...
+[INFO] 2025-09-14T09:36:37.755Z -  [DB] Looking up trip details for: b00d06f0-2f0a-4a62-99bc-ceb551d8255a
+prisma:query SELECT 1
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+[INFO] 2025-09-14T09:36:37.763Z - [TRIP] Found trip from User A (12.90281975413376, 77.67510455869504) → (12.90585225760151, 77.64882508835207)
+[INFO] 2025-09-14T09:36:37.763Z -  [CACHE] Using cached route data: 7088.567m
+[INFO] 2025-09-14T09:36:37.763Z -  [STEP 2] Pre-filtering candidates from database...
+[DEBUG] 2025-09-14T09:36:37.763Z -  [FILTER] Time window: 2025-09-14T17:00:00.000Z to 2025-09-14T18:00:00.000Z
+[DEBUG] 2025-09-14T09:36:37.763Z -  [FILTER] Bounding box: 0.0045 degrees
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" <> $1 AND "public"."trips"."status" = CAST($2::text AS "public"."TripStatus") AND "public"."trips"."departure_time" >= $3 AND "public"."trips"."departure_time" <= $4 AND "public"."trips"."seats_offered" >= $5 AND "public"."trips"."seats_required" <= $6 AND "public"."trips"."pickup_lat" >= $7 AND "public"."trips"."pickup_lat" <= $8 AND "public"."trips"."pickup_lng" >= $9 AND "public"."trips"."pickup_lng" <= $10) OFFSET $11
+[INFO] 2025-09-14T09:36:37.765Z -  [DB] Found 0 potential candidates
+[INFO] 2025-09-14T09:36:37.765Z -  [STEP 2.5] Filtering candidates within 500m...
+[INFO] 2025-09-14T09:36:37.765Z -  [FILTER] Found 0 candidates within proximity
+[INFO] 2025-09-14T09:36:37.765Z -  [STEP 3] Starting detailed analysis with Mapbox...
+[INFO] 2025-09-14T09:36:37.765Z - 
+[ANALYSIS] Completed analysis. Found 0 valid matches
+[INFO] 2025-09-14T09:36:37.765Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:36:37.765Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip EXITING ##
+[INFO] 2025-09-14T09:36:37.765Z - 
+ [MATCHING] #############################################
+[0mGET /matches/b00d06f0-2f0a-4a62-99bc-ceb551d8255a [32m200[0m 10.460 ms - 25[0m
+[0mPOST /users [32m201[0m 4.227 ms - 221[0m
+[0mPOST /users [32m201[0m 4.206 ms - 221[0m
+[0mPOST /users [32m201[0m 3.425 ms - 221[0m
+[0mPOST /users [32m201[0m 4.865 ms - 221[0m
+[0mPOST /users [32m201[0m 3.409 ms - 221[0m
+[0mPOST /users [32m201[0m 3.019 ms - 221[0m
+[0mPOST /users [32m201[0m 3.026 ms - 221[0m
+[INFO] 2025-09-14T09:37:02.423Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:02.423Z - [INPUT] Driver: 2a58d7fc-1851-45f5-8723-c9b7639fe856, Seats Offered: 3, Seats Required: 0, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:37:02.423Z - [ROUTE] 12.902819754133755, 77.67510455869504 → 12.905852257601506, 77.64882508835207
+[INFO] 2025-09-14T09:37:02.423Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:02.423Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67510455869504,
+        12.902819754133755
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882508835207,
+        12.905852257601506
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:02.632Z - [MAPBOX] Directions response: 7088.585m, 1403.574s
+[INFO] 2025-09-14T09:37:02.632Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:02.632Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:37:02.632Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:37:03.002Z - [MAPBOX] Map-matched route: 7088.567m, confidence: 0.983244
+[INFO] 2025-09-14T09:37:03.002Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:03.004Z - [H3] Generated 44 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:03.004Z - [DB] Saving trip to database...
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:03.015Z - [DB] Trip created successfully: 3f3b0b54-bb71-4308-90c3-1bcc4e74c86e
+[INFO] 2025-09-14T09:37:03.015Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 592.224 ms - 872[0m
+[INFO] 2025-09-14T09:37:03.017Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:03.017Z - [INPUT] Driver: 1554e17d-439c-4e82-a9c9-737411d67671, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:37:03.017Z - [ROUTE] 12.91166687264877, 77.67624545824033 → 12.908934647787344, 77.64882722904318
+[INFO] 2025-09-14T09:37:03.017Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:03.017Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67624545824033,
+        12.91166687264877
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882722904318,
+        12.908934647787344
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:03.220Z - [MAPBOX] Directions response: 5502.919m, 1033.711s
+[INFO] 2025-09-14T09:37:03.221Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:03.221Z - [DECODE] Decoded 23 path points
+[DEBUG] 2025-09-14T09:37:03.221Z - [MAPBOX] Map-matching API request with 23 points
+[INFO] 2025-09-14T09:37:03.506Z - [MAPBOX] Map-matched route: 5502.739m, confidence: 0.983263
+[INFO] 2025-09-14T09:37:03.506Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:03.506Z - [H3] Generated 27 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:03.506Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:03.518Z - [DB] Trip created successfully: bee09251-907c-4282-bb2a-27becef2eda4
+[INFO] 2025-09-14T09:37:03.518Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 501.237 ms - 812[0m
+[INFO] 2025-09-14T09:37:03.519Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:03.519Z - [INPUT] Driver: cc348f7e-51a6-4154-b709-bb8879dcc71b, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:30:00.000Z
+[INFO] 2025-09-14T09:37:03.519Z - [ROUTE] 12.90284, 77.675083 → 12.912047, 77.638847
+[INFO] 2025-09-14T09:37:03.519Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:03.519Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.675083,
+        12.90284
+      ]
+    },
+    {
+      "coordinates": [
+        77.638847,
+        12.912047
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:03.704Z - [MAPBOX] Directions response: 7066.472m, 1275.248s
+[INFO] 2025-09-14T09:37:03.704Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:03.704Z - [DECODE] Decoded 37 path points
+[DEBUG] 2025-09-14T09:37:03.704Z - [MAPBOX] Map-matching API request with 37 points
+[INFO] 2025-09-14T09:37:04.050Z - [MAPBOX] Map-matched route: 7066.462m, confidence: 0.983047
+[INFO] 2025-09-14T09:37:04.050Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:04.052Z - [H3] Generated 55 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:04.052Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:04.062Z - [DB] Trip created successfully: fa9a33ff-6980-4c3a-8319-b236c192e585
+[INFO] 2025-09-14T09:37:04.062Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 542.537 ms - 852[0m
+[INFO] 2025-09-14T09:37:04.064Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:04.064Z - [INPUT] Driver: f220d500-0722-4f63-929c-07f8a819ea37, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:37:04.064Z - [ROUTE] 12.903614, 77.527222 → 12.978221, 77.595079
+[INFO] 2025-09-14T09:37:04.064Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:04.064Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.527222,
+        12.903614
+      ]
+    },
+    {
+      "coordinates": [
+        77.595079,
+        12.978221
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:04.336Z - [MAPBOX] Directions response: 16684.352m, 3160.016s
+[INFO] 2025-09-14T09:37:04.336Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:04.336Z - [DECODE] Decoded 39 path points
+[DEBUG] 2025-09-14T09:37:04.336Z - [MAPBOX] Map-matching API request with 39 points
+[INFO] 2025-09-14T09:37:04.825Z - [MAPBOX] Map-matched route: 16684.357m, confidence: 0.984477
+[INFO] 2025-09-14T09:37:04.825Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:04.828Z - [H3] Generated 179 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:04.828Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:04.841Z - [DB] Trip created successfully: 3ee5d7f2-4a1f-4aa6-8de1-19901ee0e348
+[INFO] 2025-09-14T09:37:04.841Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 777.212 ms - 882[0m
+[INFO] 2025-09-14T09:37:04.843Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:04.843Z - [INPUT] Driver: 470949b2-1fd6-45f3-bac8-13d9ea7d4097, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T19:30:00.000Z
+[INFO] 2025-09-14T09:37:04.843Z - [ROUTE] 12.91997, 77.691845 → 12.969325, 77.641523
+[INFO] 2025-09-14T09:37:04.843Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:04.843Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.691845,
+        12.91997
+      ]
+    },
+    {
+      "coordinates": [
+        77.641523,
+        12.969325
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:05.060Z - [MAPBOX] Directions response: 15612.322m, 2471.92s
+[INFO] 2025-09-14T09:37:05.060Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:05.060Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:37:05.060Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:37:05.390Z - [MAPBOX] Map-matched route: 15612.365m, confidence: 0.98381
+[INFO] 2025-09-14T09:37:05.390Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:05.393Z - [H3] Generated 149 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:05.393Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:05.403Z - [DB] Trip created successfully: e3a2d7dc-f80c-486f-bca1-738d9128366a
+[INFO] 2025-09-14T09:37:05.403Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 559.806 ms - 863[0m
+[INFO] 2025-09-14T09:37:05.405Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:05.405Z - [INPUT] Driver: ed30a71e-4a8d-4850-8d17-628d3a1d69bc, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:37:05.405Z - [ROUTE] 12.979808, 77.590718 → 12.994445, 77.728798
+[INFO] 2025-09-14T09:37:05.405Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:05.405Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.590718,
+        12.979808
+      ]
+    },
+    {
+      "coordinates": [
+        77.728798,
+        12.994445
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:05.825Z - [MAPBOX] Directions response: 18751.553m, 3487.183s
+[INFO] 2025-09-14T09:37:05.825Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:05.825Z - [DECODE] Decoded 34 path points
+[DEBUG] 2025-09-14T09:37:05.825Z - [MAPBOX] Map-matching API request with 34 points
+[INFO] 2025-09-14T09:37:06.508Z - [MAPBOX] Map-matched route: 18740.355m, confidence: 0.98556
+[INFO] 2025-09-14T09:37:06.508Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:06.510Z - [H3] Generated 71 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:06.510Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:06.520Z - [DB] Trip created successfully: 5a06c06a-324d-4a7a-8f61-7908a4de00b5
+[INFO] 2025-09-14T09:37:06.520Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 1115.473 ms - 855[0m
+[INFO] 2025-09-14T09:37:06.522Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:06.522Z - [INPUT] Driver: 8eb811a3-cf61-4a7a-b292-c2a9531a0780, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:00:00.000Z
+[INFO] 2025-09-14T09:37:06.522Z - [ROUTE] 12.97183, 77.595872 → 13.027392, 77.567546
+[INFO] 2025-09-14T09:37:06.522Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:06.523Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.595872,
+        12.97183
+      ]
+    },
+    {
+      "coordinates": [
+        77.567546,
+        13.027392
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:06.919Z - [MAPBOX] Directions response: 10137.425m, 2027.98s
+[INFO] 2025-09-14T09:37:06.919Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:06.920Z - [DECODE] Decoded 28 path points
+[DEBUG] 2025-09-14T09:37:06.920Z - [MAPBOX] Map-matching API request with 28 points
+[INFO] 2025-09-14T09:37:07.471Z - [MAPBOX] Map-matched route: 10137.251m, confidence: 0.982068
+[INFO] 2025-09-14T09:37:07.471Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:07.473Z - [H3] Generated 18 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:07.473Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:07.485Z - [DB] Trip created successfully: 9c0bd30c-3e57-4983-bd7f-ca64c937e4e8
+[INFO] 2025-09-14T09:37:07.485Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 962.730 ms - 810[0m
+[INFO] 2025-09-14T09:37:07.487Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:37:07.487Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip ENTERED ##
+[INFO] 2025-09-14T09:37:07.487Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:37:07.487Z - 
+ [MATCHING] Starting match search for trip: 3f3b0b54-bb71-4308-90c3-1bcc4e74c86e
+[INFO] 2025-09-14T09:37:07.487Z -  [STEP 1] Fetching main trip details...
+[INFO] 2025-09-14T09:37:07.487Z -  [DB] Looking up trip details for: 3f3b0b54-bb71-4308-90c3-1bcc4e74c86e
+prisma:query SELECT 1
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+[INFO] 2025-09-14T09:37:07.491Z - [TRIP] Found trip from User A (12.90281975413376, 77.67510455869504) → (12.90585225760151, 77.64882508835207)
+[INFO] 2025-09-14T09:37:07.491Z -  [CACHE] Using cached route data: 7088.567m
+[INFO] 2025-09-14T09:37:07.491Z -  [STEP 2] Pre-filtering candidates from database...
+[DEBUG] 2025-09-14T09:37:07.491Z -  [FILTER] Time window: 2025-09-14T17:00:00.000Z to 2025-09-14T18:00:00.000Z
+[DEBUG] 2025-09-14T09:37:07.491Z -  [FILTER] Bounding box: 0.0045 degrees
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" <> $1 AND "public"."trips"."status" = CAST($2::text AS "public"."TripStatus") AND "public"."trips"."departure_time" >= $3 AND "public"."trips"."departure_time" <= $4 AND "public"."trips"."seats_offered" >= $5 AND "public"."trips"."seats_required" <= $6 AND "public"."trips"."pickup_lat" >= $7 AND "public"."trips"."pickup_lat" <= $8 AND "public"."trips"."pickup_lng" >= $9 AND "public"."trips"."pickup_lng" <= $10) OFFSET $11
+[INFO] 2025-09-14T09:37:07.493Z -  [DB] Found 0 potential candidates
+[INFO] 2025-09-14T09:37:07.493Z -  [STEP 2.5] Filtering candidates within 500m...
+[INFO] 2025-09-14T09:37:07.493Z -  [FILTER] Found 0 candidates within proximity
+[INFO] 2025-09-14T09:37:07.493Z -  [STEP 3] Starting detailed analysis with Mapbox...
+[INFO] 2025-09-14T09:37:07.493Z - 
+[ANALYSIS] Completed analysis. Found 0 valid matches
+[INFO] 2025-09-14T09:37:07.493Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:37:07.493Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip EXITING ##
+[INFO] 2025-09-14T09:37:07.493Z - 
+ [MATCHING] #############################################
+[0mGET /matches/3f3b0b54-bb71-4308-90c3-1bcc4e74c86e [32m200[0m 6.883 ms - 25[0m
+[0mPOST /users [32m201[0m 4.871 ms - 221[0m
+[0mPOST /users [32m201[0m 2.968 ms - 221[0m
+[0mPOST /users [32m201[0m 2.149 ms - 221[0m
+[0mPOST /users [32m201[0m 2.327 ms - 221[0m
+[0mPOST /users [32m201[0m 1.807 ms - 221[0m
+[0mPOST /users [32m201[0m 4.002 ms - 221[0m
+[0mPOST /users [32m201[0m 2.353 ms - 221[0m
+[INFO] 2025-09-14T09:37:53.993Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:53.993Z - [INPUT] Driver: 659b4824-18df-4fd0-8a66-832f00ceb2e7, Seats Offered: 3, Seats Required: 0, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:37:53.993Z - [ROUTE] 12.902819754133755, 77.67510455869504 → 12.905852257601506, 77.64882508835207
+[INFO] 2025-09-14T09:37:53.993Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:53.993Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67510455869504,
+        12.902819754133755
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882508835207,
+        12.905852257601506
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:54.345Z - [MAPBOX] Directions response: 7088.585m, 1403.574s
+[INFO] 2025-09-14T09:37:54.346Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:54.346Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:37:54.346Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:37:54.702Z - [MAPBOX] Map-matched route: 7088.567m, confidence: 0.983244
+[INFO] 2025-09-14T09:37:54.702Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:54.703Z - [H3] Generated 44 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:54.703Z - [DB] Saving trip to database...
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:54.717Z - [DB] Trip created successfully: 4118c4ed-bad5-4971-9cb9-c8fd33b2858c
+[INFO] 2025-09-14T09:37:54.717Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 724.674 ms - 872[0m
+[INFO] 2025-09-14T09:37:54.721Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:54.721Z - [INPUT] Driver: f6d615f3-5d65-4f86-ac4e-2738f4f97d12, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:37:54.721Z - [ROUTE] 12.91166687264877, 77.67624545824033 → 12.908934647787344, 77.64882722904318
+[INFO] 2025-09-14T09:37:54.721Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:54.721Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67624545824033,
+        12.91166687264877
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882722904318,
+        12.908934647787344
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:54.899Z - [MAPBOX] Directions response: 5502.919m, 1033.711s
+[INFO] 2025-09-14T09:37:54.899Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:54.899Z - [DECODE] Decoded 23 path points
+[DEBUG] 2025-09-14T09:37:54.899Z - [MAPBOX] Map-matching API request with 23 points
+[INFO] 2025-09-14T09:37:55.355Z - [MAPBOX] Map-matched route: 5502.739m, confidence: 0.983263
+[INFO] 2025-09-14T09:37:55.355Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:55.356Z - [H3] Generated 27 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:55.356Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:55.370Z - [DB] Trip created successfully: eefbdbc5-0762-4e75-a26d-a46002832397
+[INFO] 2025-09-14T09:37:55.370Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 649.285 ms - 812[0m
+[INFO] 2025-09-14T09:37:55.372Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:55.372Z - [INPUT] Driver: ca10497a-cbc7-437d-8ac3-c99930ca5d03, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:30:00.000Z
+[INFO] 2025-09-14T09:37:55.372Z - [ROUTE] 12.90284, 77.675083 → 12.912047, 77.638847
+[INFO] 2025-09-14T09:37:55.372Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:55.372Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.675083,
+        12.90284
+      ]
+    },
+    {
+      "coordinates": [
+        77.638847,
+        12.912047
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:55.563Z - [MAPBOX] Directions response: 7066.472m, 1275.248s
+[INFO] 2025-09-14T09:37:55.563Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:55.563Z - [DECODE] Decoded 37 path points
+[DEBUG] 2025-09-14T09:37:55.563Z - [MAPBOX] Map-matching API request with 37 points
+[INFO] 2025-09-14T09:37:55.888Z - [MAPBOX] Map-matched route: 7066.462m, confidence: 0.983047
+[INFO] 2025-09-14T09:37:55.888Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:55.889Z - [H3] Generated 55 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:55.889Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:55.900Z - [DB] Trip created successfully: 0fb29bc6-e8f7-47c7-962c-6abe4d63ebc4
+[INFO] 2025-09-14T09:37:55.900Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 528.745 ms - 852[0m
+[INFO] 2025-09-14T09:37:55.903Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:55.903Z - [INPUT] Driver: aaeb3854-7b2e-4bde-bf7c-07db7db01a23, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:37:55.903Z - [ROUTE] 12.903614, 77.527222 → 12.978221, 77.595079
+[INFO] 2025-09-14T09:37:55.903Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:55.903Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.527222,
+        12.903614
+      ]
+    },
+    {
+      "coordinates": [
+        77.595079,
+        12.978221
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:56.170Z - [MAPBOX] Directions response: 16684.352m, 3160.016s
+[INFO] 2025-09-14T09:37:56.170Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:56.170Z - [DECODE] Decoded 39 path points
+[DEBUG] 2025-09-14T09:37:56.170Z - [MAPBOX] Map-matching API request with 39 points
+[INFO] 2025-09-14T09:37:56.520Z - [MAPBOX] Map-matched route: 16684.357m, confidence: 0.984477
+[INFO] 2025-09-14T09:37:56.520Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:56.522Z - [H3] Generated 179 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:56.522Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:56.534Z - [DB] Trip created successfully: 72c9c70b-f2ac-4922-b108-d7faaac11138
+[INFO] 2025-09-14T09:37:56.534Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 631.776 ms - 882[0m
+[INFO] 2025-09-14T09:37:56.536Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:56.536Z - [INPUT] Driver: 9370eeac-02a4-48b7-a9b4-bb60b65a7db4, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T19:30:00.000Z
+[INFO] 2025-09-14T09:37:56.536Z - [ROUTE] 12.91997, 77.691845 → 12.969325, 77.641523
+[INFO] 2025-09-14T09:37:56.536Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:56.536Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.691845,
+        12.91997
+      ]
+    },
+    {
+      "coordinates": [
+        77.641523,
+        12.969325
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:56.917Z - [MAPBOX] Directions response: 15612.322m, 2471.92s
+[INFO] 2025-09-14T09:37:56.918Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:56.918Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:37:56.918Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:37:57.402Z - [MAPBOX] Map-matched route: 15612.365m, confidence: 0.98381
+[INFO] 2025-09-14T09:37:57.402Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:57.403Z - [H3] Generated 149 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:57.403Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:57.410Z - [DB] Trip created successfully: 89049d61-8167-4e50-8b2b-06b2a61646f1
+[INFO] 2025-09-14T09:37:57.410Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 874.398 ms - 863[0m
+[INFO] 2025-09-14T09:37:57.412Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:57.412Z - [INPUT] Driver: 50622ba3-944a-4368-ba87-fa029946ca1e, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:37:57.412Z - [ROUTE] 12.979808, 77.590718 → 12.994445, 77.728798
+[INFO] 2025-09-14T09:37:57.412Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:57.412Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.590718,
+        12.979808
+      ]
+    },
+    {
+      "coordinates": [
+        77.728798,
+        12.994445
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:57.676Z - [MAPBOX] Directions response: 18751.553m, 3487.183s
+[INFO] 2025-09-14T09:37:57.676Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:57.676Z - [DECODE] Decoded 34 path points
+[DEBUG] 2025-09-14T09:37:57.677Z - [MAPBOX] Map-matching API request with 34 points
+[INFO] 2025-09-14T09:37:58.227Z - [MAPBOX] Map-matched route: 18740.355m, confidence: 0.98556
+[INFO] 2025-09-14T09:37:58.228Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:58.229Z - [H3] Generated 71 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:58.229Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:58.244Z - [DB] Trip created successfully: c6fa55c3-d5db-4e0b-8f1e-729edd054856
+[INFO] 2025-09-14T09:37:58.244Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 831.778 ms - 855[0m
+[INFO] 2025-09-14T09:37:58.245Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:37:58.245Z - [INPUT] Driver: 5ac383b3-0e19-4d03-b982-21cdb881030e, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:00:00.000Z
+[INFO] 2025-09-14T09:37:58.245Z - [ROUTE] 12.97183, 77.595872 → 13.027392, 77.567546
+[INFO] 2025-09-14T09:37:58.245Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:37:58.245Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.595872,
+        12.97183
+      ]
+    },
+    {
+      "coordinates": [
+        77.567546,
+        13.027392
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:37:58.467Z - [MAPBOX] Directions response: 10137.425m, 2027.98s
+[INFO] 2025-09-14T09:37:58.467Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:37:58.467Z - [DECODE] Decoded 28 path points
+[DEBUG] 2025-09-14T09:37:58.467Z - [MAPBOX] Map-matching API request with 28 points
+[INFO] 2025-09-14T09:37:58.952Z - [MAPBOX] Map-matched route: 10137.251m, confidence: 0.982068
+[INFO] 2025-09-14T09:37:58.952Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:37:58.953Z - [H3] Generated 18 H3 cells at resolution 9
+[INFO] 2025-09-14T09:37:58.953Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:37:58.962Z - [DB] Trip created successfully: 0d4d13e1-9bee-4914-9157-6ec81b5c21f9
+[INFO] 2025-09-14T09:37:58.962Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 717.108 ms - 810[0m
+[INFO] 2025-09-14T09:37:58.963Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:37:58.963Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip ENTERED ##
+[INFO] 2025-09-14T09:37:58.963Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:37:58.963Z - 
+ [MATCHING] Starting match search for trip: 4118c4ed-bad5-4971-9cb9-c8fd33b2858c
+[INFO] 2025-09-14T09:37:58.963Z -  [STEP 1] Fetching main trip details...
+[INFO] 2025-09-14T09:37:58.963Z -  [DB] Looking up trip details for: 4118c4ed-bad5-4971-9cb9-c8fd33b2858c
+prisma:query SELECT 1
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+[INFO] 2025-09-14T09:37:58.968Z - [TRIP] Found trip from User A (12.90281975413376, 77.67510455869504) → (12.90585225760151, 77.64882508835207)
+[INFO] 2025-09-14T09:37:58.969Z -  [CACHE] Using cached route data: 7088.567m
+[INFO] 2025-09-14T09:37:58.969Z -  [STEP 2] Pre-filtering candidates from database...
+[DEBUG] 2025-09-14T09:37:58.969Z -  [FILTER] Time window: 2025-09-14T17:00:00.000Z to 2025-09-14T18:00:00.000Z
+[DEBUG] 2025-09-14T09:37:58.969Z -  [FILTER] Bounding box: 0.0045 degrees
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" <> $1 AND "public"."trips"."status" = CAST($2::text AS "public"."TripStatus") AND "public"."trips"."departure_time" >= $3 AND "public"."trips"."departure_time" <= $4 AND "public"."trips"."seats_offered" >= $5 AND "public"."trips"."seats_required" <= $6 AND "public"."trips"."pickup_lat" >= $7 AND "public"."trips"."pickup_lat" <= $8 AND "public"."trips"."pickup_lng" >= $9 AND "public"."trips"."pickup_lng" <= $10) OFFSET $11
+[INFO] 2025-09-14T09:37:58.970Z -  [DB] Found 0 potential candidates
+[INFO] 2025-09-14T09:37:58.971Z -  [STEP 2.5] Filtering candidates within 500m...
+[INFO] 2025-09-14T09:37:58.971Z -  [FILTER] Found 0 candidates within proximity
+[INFO] 2025-09-14T09:37:58.971Z -  [STEP 3] Starting detailed analysis with Mapbox...
+[INFO] 2025-09-14T09:37:58.971Z - 
+[ANALYSIS] Completed analysis. Found 0 valid matches
+[INFO] 2025-09-14T09:37:58.971Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:37:58.971Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip EXITING ##
+[INFO] 2025-09-14T09:37:58.971Z - 
+ [MATCHING] #############################################
+[0mGET /matches/4118c4ed-bad5-4971-9cb9-c8fd33b2858c [32m200[0m 9.079 ms - 25[0m
+[0mPOST /users [32m201[0m 5.140 ms - 221[0m
+[0mPOST /users [32m201[0m 3.286 ms - 221[0m
+[0mPOST /users [32m201[0m 3.291 ms - 221[0m
+[0mPOST /users [32m201[0m 2.354 ms - 221[0m
+[0mPOST /users [32m201[0m 3.714 ms - 221[0m
+[0mPOST /users [32m201[0m 2.493 ms - 221[0m
+[0mPOST /users [32m201[0m 3.432 ms - 221[0m
+[INFO] 2025-09-14T09:38:22.644Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:38:22.644Z - [INPUT] Driver: e4fd3570-4b8d-49e9-b5cb-4b5fe3761701, Seats Offered: 3, Seats Required: 0, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:38:22.644Z - [ROUTE] 12.902819754133755, 77.67510455869504 → 12.905852257601506, 77.64882508835207
+[INFO] 2025-09-14T09:38:22.644Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:38:22.644Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67510455869504,
+        12.902819754133755
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882508835207,
+        12.905852257601506
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:38:22.682Z - [MAPBOX] Directions response: 7088.585m, 1403.574s
+[INFO] 2025-09-14T09:38:22.682Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:38:22.682Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:38:22.682Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:38:23.244Z - [MAPBOX] Map-matched route: 7088.567m, confidence: 0.983244
+[INFO] 2025-09-14T09:38:23.244Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:38:23.244Z - [H3] Generated 44 H3 cells at resolution 9
+[INFO] 2025-09-14T09:38:23.244Z - [DB] Saving trip to database...
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:38:23.257Z - [DB] Trip created successfully: 43f0306b-5989-431f-bb7d-6349914eee06
+[INFO] 2025-09-14T09:38:23.257Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 612.973 ms - 872[0m
+[INFO] 2025-09-14T09:38:23.259Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:38:23.259Z - [INPUT] Driver: 487f2108-d6ed-4210-8f41-32d64abf5f1b, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:38:23.259Z - [ROUTE] 12.91166687264877, 77.67624545824033 → 12.908934647787344, 77.64882722904318
+[INFO] 2025-09-14T09:38:23.259Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:38:23.259Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67624545824033,
+        12.91166687264877
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882722904318,
+        12.908934647787344
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:38:23.296Z - [MAPBOX] Directions response: 5502.919m, 1033.711s
+[INFO] 2025-09-14T09:38:23.296Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:38:23.296Z - [DECODE] Decoded 23 path points
+[DEBUG] 2025-09-14T09:38:23.296Z - [MAPBOX] Map-matching API request with 23 points
+[INFO] 2025-09-14T09:38:23.582Z - [MAPBOX] Map-matched route: 5502.739m, confidence: 0.983263
+[INFO] 2025-09-14T09:38:23.582Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:38:23.583Z - [H3] Generated 27 H3 cells at resolution 9
+[INFO] 2025-09-14T09:38:23.583Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:38:23.594Z - [DB] Trip created successfully: cfb663da-dc09-4395-9f29-1c9ad8b7a5d8
+[INFO] 2025-09-14T09:38:23.594Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 335.393 ms - 812[0m
+[INFO] 2025-09-14T09:38:23.596Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:38:23.596Z - [INPUT] Driver: 6da28747-5a98-46ce-8396-251df48130c2, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:30:00.000Z
+[INFO] 2025-09-14T09:38:23.596Z - [ROUTE] 12.90284, 77.675083 → 12.912047, 77.638847
+[INFO] 2025-09-14T09:38:23.596Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:38:23.596Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.675083,
+        12.90284
+      ]
+    },
+    {
+      "coordinates": [
+        77.638847,
+        12.912047
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:38:23.632Z - [MAPBOX] Directions response: 7066.472m, 1275.248s
+[INFO] 2025-09-14T09:38:23.632Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:38:23.632Z - [DECODE] Decoded 37 path points
+[DEBUG] 2025-09-14T09:38:23.632Z - [MAPBOX] Map-matching API request with 37 points
+[INFO] 2025-09-14T09:38:24.013Z - [MAPBOX] Map-matched route: 7066.462m, confidence: 0.983047
+[INFO] 2025-09-14T09:38:24.013Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:38:24.014Z - [H3] Generated 55 H3 cells at resolution 9
+[INFO] 2025-09-14T09:38:24.014Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:38:24.025Z - [DB] Trip created successfully: e73421d5-788b-477f-8a8d-acbcc11b9807
+[INFO] 2025-09-14T09:38:24.025Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 429.659 ms - 852[0m
+[INFO] 2025-09-14T09:38:24.027Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:38:24.027Z - [INPUT] Driver: 259abdd7-af4b-44fb-a07a-3f241868f721, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:38:24.027Z - [ROUTE] 12.903614, 77.527222 → 12.978221, 77.595079
+[INFO] 2025-09-14T09:38:24.027Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:38:24.027Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.527222,
+        12.903614
+      ]
+    },
+    {
+      "coordinates": [
+        77.595079,
+        12.978221
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:38:24.071Z - [MAPBOX] Directions response: 16684.352m, 3160.016s
+[INFO] 2025-09-14T09:38:24.071Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:38:24.071Z - [DECODE] Decoded 39 path points
+[DEBUG] 2025-09-14T09:38:24.071Z - [MAPBOX] Map-matching API request with 39 points
+[INFO] 2025-09-14T09:38:24.578Z - [MAPBOX] Map-matched route: 16684.357m, confidence: 0.984477
+[INFO] 2025-09-14T09:38:24.578Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:38:24.580Z - [H3] Generated 179 H3 cells at resolution 9
+[INFO] 2025-09-14T09:38:24.580Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:38:24.590Z - [DB] Trip created successfully: 6f2a2a8b-0dff-4e5f-9c51-61165d332293
+[INFO] 2025-09-14T09:38:24.590Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 562.499 ms - 882[0m
+[INFO] 2025-09-14T09:38:24.593Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:38:24.593Z - [INPUT] Driver: b1910ea3-ad06-4d57-82f2-deef97a823dd, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T19:30:00.000Z
+[INFO] 2025-09-14T09:38:24.593Z - [ROUTE] 12.91997, 77.691845 → 12.969325, 77.641523
+[INFO] 2025-09-14T09:38:24.593Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:38:24.593Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.691845,
+        12.91997
+      ]
+    },
+    {
+      "coordinates": [
+        77.641523,
+        12.969325
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:38:24.650Z - [MAPBOX] Directions response: 15612.322m, 2471.92s
+[INFO] 2025-09-14T09:38:24.650Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:38:24.650Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:38:24.650Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:38:25.162Z - [MAPBOX] Map-matched route: 15612.365m, confidence: 0.98381
+[INFO] 2025-09-14T09:38:25.162Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:38:25.164Z - [H3] Generated 149 H3 cells at resolution 9
+[INFO] 2025-09-14T09:38:25.164Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:38:25.177Z - [DB] Trip created successfully: 95ca137d-5e24-41ef-a6a8-2a621764cc0a
+[INFO] 2025-09-14T09:38:25.177Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 584.305 ms - 863[0m
+[INFO] 2025-09-14T09:38:25.179Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:38:25.179Z - [INPUT] Driver: e7359be9-4a88-43e4-a1be-558adb1cdf31, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:38:25.179Z - [ROUTE] 12.979808, 77.590718 → 12.994445, 77.728798
+[INFO] 2025-09-14T09:38:25.179Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:38:25.179Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.590718,
+        12.979808
+      ]
+    },
+    {
+      "coordinates": [
+        77.728798,
+        12.994445
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:38:25.214Z - [MAPBOX] Directions response: 18751.553m, 3487.183s
+[INFO] 2025-09-14T09:38:25.214Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:38:25.214Z - [DECODE] Decoded 34 path points
+[DEBUG] 2025-09-14T09:38:25.214Z - [MAPBOX] Map-matching API request with 34 points
+[INFO] 2025-09-14T09:38:25.763Z - [MAPBOX] Map-matched route: 18740.355m, confidence: 0.98556
+[INFO] 2025-09-14T09:38:25.763Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:38:25.766Z - [H3] Generated 71 H3 cells at resolution 9
+[INFO] 2025-09-14T09:38:25.766Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:38:25.777Z - [DB] Trip created successfully: 807becfe-21e4-449c-a4a3-ec4474f066b2
+[INFO] 2025-09-14T09:38:25.777Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 598.896 ms - 855[0m
+[INFO] 2025-09-14T09:38:25.779Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:38:25.779Z - [INPUT] Driver: 2577fc52-7a9e-4f5f-a991-d370d1adeb90, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:00:00.000Z
+[INFO] 2025-09-14T09:38:25.779Z - [ROUTE] 12.97183, 77.595872 → 13.027392, 77.567546
+[INFO] 2025-09-14T09:38:25.779Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:38:25.779Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.595872,
+        12.97183
+      ]
+    },
+    {
+      "coordinates": [
+        77.567546,
+        13.027392
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:38:25.817Z - [MAPBOX] Directions response: 10137.425m, 2027.98s
+[INFO] 2025-09-14T09:38:25.817Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:38:25.817Z - [DECODE] Decoded 28 path points
+[DEBUG] 2025-09-14T09:38:25.817Z - [MAPBOX] Map-matching API request with 28 points
+[INFO] 2025-09-14T09:38:26.315Z - [MAPBOX] Map-matched route: 10137.251m, confidence: 0.982068
+[INFO] 2025-09-14T09:38:26.315Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:38:26.316Z - [H3] Generated 18 H3 cells at resolution 9
+[INFO] 2025-09-14T09:38:26.316Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:38:26.330Z - [DB] Trip created successfully: 8f20b5a0-1762-47ec-b27e-99b46340ca9a
+[INFO] 2025-09-14T09:38:26.330Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 550.953 ms - 810[0m
+[INFO] 2025-09-14T09:38:26.332Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:38:26.332Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip ENTERED ##
+[INFO] 2025-09-14T09:38:26.332Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:38:26.332Z - 
+ [MATCHING] Starting match search for trip: 43f0306b-5989-431f-bb7d-6349914eee06
+[INFO] 2025-09-14T09:38:26.332Z -  [STEP 1] Fetching main trip details...
+[INFO] 2025-09-14T09:38:26.332Z -  [DB] Looking up trip details for: 43f0306b-5989-431f-bb7d-6349914eee06
+prisma:query SELECT 1
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+[INFO] 2025-09-14T09:38:26.335Z - [TRIP] Found trip from User A (12.90281975413376, 77.67510455869504) → (12.90585225760151, 77.64882508835207)
+[INFO] 2025-09-14T09:38:26.335Z -  [CACHE] Using cached route data: 7088.567m
+[INFO] 2025-09-14T09:38:26.335Z -  [STEP 2] Pre-filtering candidates from database...
+[DEBUG] 2025-09-14T09:38:26.335Z -  [FILTER] Time window: 2025-09-14T17:00:00.000Z to 2025-09-14T18:00:00.000Z
+[DEBUG] 2025-09-14T09:38:26.335Z -  [FILTER] Bounding box: 0.0045 degrees
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" <> $1 AND "public"."trips"."status" = CAST($2::text AS "public"."TripStatus") AND "public"."trips"."departure_time" >= $3 AND "public"."trips"."departure_time" <= $4 AND "public"."trips"."seats_offered" >= $5 AND "public"."trips"."seats_required" <= $6 AND "public"."trips"."pickup_lat" >= $7 AND "public"."trips"."pickup_lat" <= $8 AND "public"."trips"."pickup_lng" >= $9 AND "public"."trips"."pickup_lng" <= $10) OFFSET $11
+[INFO] 2025-09-14T09:38:26.338Z -  [DB] Found 0 potential candidates
+[INFO] 2025-09-14T09:38:26.338Z -  [STEP 2.5] Filtering candidates within 500m...
+[INFO] 2025-09-14T09:38:26.338Z -  [FILTER] Found 0 candidates within proximity
+[INFO] 2025-09-14T09:38:26.338Z -  [STEP 3] Starting detailed analysis with Mapbox...
+[INFO] 2025-09-14T09:38:26.338Z - 
+[ANALYSIS] Completed analysis. Found 0 valid matches
+[INFO] 2025-09-14T09:38:26.338Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:38:26.338Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip EXITING ##
+[INFO] 2025-09-14T09:38:26.338Z - 
+ [MATCHING] #############################################
+[0mGET /matches/43f0306b-5989-431f-bb7d-6349914eee06 [32m200[0m 7.017 ms - 25[0m
+[0mPOST /users [32m201[0m 6.010 ms - 221[0m
+[0mPOST /users [32m201[0m 4.460 ms - 221[0m
+[0mPOST /users [32m201[0m 3.791 ms - 221[0m
+[0mPOST /users [32m201[0m 5.036 ms - 221[0m
+[0mPOST /users [32m201[0m 4.522 ms - 221[0m
+[0mPOST /users [32m201[0m 3.623 ms - 221[0m
+[0mPOST /users [32m201[0m 2.747 ms - 221[0m
+[INFO] 2025-09-14T09:39:03.207Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:39:03.207Z - [INPUT] Driver: f50445a3-0e19-4e16-874d-8b7b6d7582b4, Seats Offered: 3, Seats Required: 0, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:39:03.207Z - [ROUTE] 12.902819754133755, 77.67510455869504 → 12.905852257601506, 77.64882508835207
+[INFO] 2025-09-14T09:39:03.207Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:39:03.207Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67510455869504,
+        12.902819754133755
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882508835207,
+        12.905852257601506
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:39:03.569Z - [MAPBOX] Directions response: 7088.585m, 1416.224s
+[INFO] 2025-09-14T09:39:03.569Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:39:03.569Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:39:03.569Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:39:03.894Z - [MAPBOX] Map-matched route: 7088.567m, confidence: 0.983244
+[INFO] 2025-09-14T09:39:03.894Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:39:03.895Z - [H3] Generated 44 H3 cells at resolution 9
+[INFO] 2025-09-14T09:39:03.895Z - [DB] Saving trip to database...
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:39:03.904Z - [DB] Trip created successfully: 8baec6c5-cfbb-45c0-8c99-73cad112861b
+[INFO] 2025-09-14T09:39:03.904Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 696.714 ms - 872[0m
+[INFO] 2025-09-14T09:39:03.905Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:39:03.905Z - [INPUT] Driver: 99180ab5-2606-4765-af1a-14241fc07568, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:30:00.000Z
+[INFO] 2025-09-14T09:39:03.905Z - [ROUTE] 12.91166687264877, 77.67624545824033 → 12.908934647787344, 77.64882722904318
+[INFO] 2025-09-14T09:39:03.905Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:39:03.905Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.67624545824033,
+        12.91166687264877
+      ]
+    },
+    {
+      "coordinates": [
+        77.64882722904318,
+        12.908934647787344
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:39:04.234Z - [MAPBOX] Directions response: 5502.919m, 1064.791s
+[INFO] 2025-09-14T09:39:04.234Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:39:04.234Z - [DECODE] Decoded 23 path points
+[DEBUG] 2025-09-14T09:39:04.234Z - [MAPBOX] Map-matching API request with 23 points
+[INFO] 2025-09-14T09:39:04.534Z - [MAPBOX] Map-matched route: 5502.739m, confidence: 0.983263
+[INFO] 2025-09-14T09:39:04.534Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:39:04.535Z - [H3] Generated 27 H3 cells at resolution 9
+[INFO] 2025-09-14T09:39:04.535Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:39:04.548Z - [DB] Trip created successfully: a07c0083-afc4-40a5-b5ab-bd8b518e2d4b
+[INFO] 2025-09-14T09:39:04.549Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 643.620 ms - 812[0m
+[INFO] 2025-09-14T09:39:04.551Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:39:04.551Z - [INPUT] Driver: e20625a5-b04a-49f4-8be2-6add2464e32c, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:30:00.000Z
+[INFO] 2025-09-14T09:39:04.551Z - [ROUTE] 12.90284, 77.675083 → 12.912047, 77.638847
+[INFO] 2025-09-14T09:39:04.551Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:39:04.551Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.675083,
+        12.90284
+      ]
+    },
+    {
+      "coordinates": [
+        77.638847,
+        12.912047
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:39:04.735Z - [MAPBOX] Directions response: 7066.472m, 1229.167s
+[INFO] 2025-09-14T09:39:04.735Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:39:04.735Z - [DECODE] Decoded 37 path points
+[DEBUG] 2025-09-14T09:39:04.735Z - [MAPBOX] Map-matching API request with 37 points
+[INFO] 2025-09-14T09:39:05.028Z - [MAPBOX] Map-matched route: 7066.462m, confidence: 0.983047
+[INFO] 2025-09-14T09:39:05.028Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:39:05.029Z - [H3] Generated 55 H3 cells at resolution 9
+[INFO] 2025-09-14T09:39:05.029Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:39:05.041Z - [DB] Trip created successfully: c1cd976f-88ab-4c11-94aa-c98d95c3e271
+[INFO] 2025-09-14T09:39:05.041Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 490.170 ms - 852[0m
+[INFO] 2025-09-14T09:39:05.043Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:39:05.043Z - [INPUT] Driver: 0e13bce4-2059-4fef-8f9b-83bf32abb12e, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:39:05.043Z - [ROUTE] 12.903614, 77.527222 → 12.978221, 77.595079
+[INFO] 2025-09-14T09:39:05.043Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:39:05.043Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.527222,
+        12.903614
+      ]
+    },
+    {
+      "coordinates": [
+        77.595079,
+        12.978221
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:39:05.320Z - [MAPBOX] Directions response: 16684.352m, 3168.328s
+[INFO] 2025-09-14T09:39:05.320Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:39:05.320Z - [DECODE] Decoded 39 path points
+[DEBUG] 2025-09-14T09:39:05.320Z - [MAPBOX] Map-matching API request with 39 points
+[INFO] 2025-09-14T09:39:05.760Z - [MAPBOX] Map-matched route: 16684.357m, confidence: 0.984477
+[INFO] 2025-09-14T09:39:05.760Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:39:05.762Z - [H3] Generated 179 H3 cells at resolution 9
+[INFO] 2025-09-14T09:39:05.762Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:39:05.773Z - [DB] Trip created successfully: fe5a8077-2b7a-4fff-a83d-11a48d52a570
+[INFO] 2025-09-14T09:39:05.773Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 730.733 ms - 882[0m
+[INFO] 2025-09-14T09:39:05.775Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:39:05.775Z - [INPUT] Driver: 1a99ca61-b1a9-4436-a98c-e9c3a282e7cd, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T19:30:00.000Z
+[INFO] 2025-09-14T09:39:05.775Z - [ROUTE] 12.91997, 77.691845 → 12.969325, 77.641523
+[INFO] 2025-09-14T09:39:05.775Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:39:05.775Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.691845,
+        12.91997
+      ]
+    },
+    {
+      "coordinates": [
+        77.641523,
+        12.969325
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:39:05.985Z - [MAPBOX] Directions response: 15612.322m, 2474.846s
+[INFO] 2025-09-14T09:39:05.985Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:39:05.985Z - [DECODE] Decoded 36 path points
+[DEBUG] 2025-09-14T09:39:05.985Z - [MAPBOX] Map-matching API request with 36 points
+[INFO] 2025-09-14T09:39:06.339Z - [MAPBOX] Map-matched route: 15612.365m, confidence: 0.98381
+[INFO] 2025-09-14T09:39:06.339Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:39:06.341Z - [H3] Generated 149 H3 cells at resolution 9
+[INFO] 2025-09-14T09:39:06.341Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:39:06.349Z - [DB] Trip created successfully: 37d1c32a-d29a-43b0-8772-0ee59f51902f
+[INFO] 2025-09-14T09:39:06.349Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 574.253 ms - 863[0m
+[INFO] 2025-09-14T09:39:06.352Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:39:06.352Z - [INPUT] Driver: c46b8a68-0391-49c4-ad0a-69b947e580ef, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T17:45:00.000Z
+[INFO] 2025-09-14T09:39:06.352Z - [ROUTE] 12.979808, 77.590718 → 12.994445, 77.728798
+[INFO] 2025-09-14T09:39:06.352Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:39:06.352Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.590718,
+        12.979808
+      ]
+    },
+    {
+      "coordinates": [
+        77.728798,
+        12.994445
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:39:06.630Z - [MAPBOX] Directions response: 18751.553m, 3509.059s
+[INFO] 2025-09-14T09:39:06.630Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:39:06.630Z - [DECODE] Decoded 34 path points
+[DEBUG] 2025-09-14T09:39:06.630Z - [MAPBOX] Map-matching API request with 34 points
+[INFO] 2025-09-14T09:39:07.357Z - [MAPBOX] Map-matched route: 18740.355m, confidence: 0.98556
+[INFO] 2025-09-14T09:39:07.357Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:39:07.359Z - [H3] Generated 71 H3 cells at resolution 9
+[INFO] 2025-09-14T09:39:07.359Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:39:07.370Z - [DB] Trip created successfully: a62a061a-395b-4977-af1c-fbdad86ee29e
+[INFO] 2025-09-14T09:39:07.370Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 1018.419 ms - 855[0m
+[INFO] 2025-09-14T09:39:07.372Z - [TRIP CREATION] Starting trip creation...
+[INFO] 2025-09-14T09:39:07.372Z - [INPUT] Driver: 097b2d34-c3ea-4460-988f-b3c06c7cbbe1, Seats Offered: 0, Seats Required: 1, Departure: 2025-09-14T18:00:00.000Z
+[INFO] 2025-09-14T09:39:07.372Z - [ROUTE] 12.97183, 77.595872 → 13.027392, 77.567546
+[INFO] 2025-09-14T09:39:07.372Z - [MAPBOX] Fetching directions...
+[DEBUG] 2025-09-14T09:39:07.372Z - [MAPBOX] Directions API request: {
+  "profile": "driving-traffic",
+  "waypoints": [
+    {
+      "coordinates": [
+        77.595872,
+        12.97183
+      ]
+    },
+    {
+      "coordinates": [
+        77.567546,
+        13.027392
+      ]
+    }
+  ],
+  "geometries": "polyline6"
+}
+[INFO] 2025-09-14T09:39:07.598Z - [MAPBOX] Directions response: 10137.425m, 2071.102s
+[INFO] 2025-09-14T09:39:07.598Z - [MAPBOX] Map-matching for precise route snapping...
+[DEBUG] 2025-09-14T09:39:07.598Z - [DECODE] Decoded 28 path points
+[DEBUG] 2025-09-14T09:39:07.598Z - [MAPBOX] Map-matching API request with 28 points
+[INFO] 2025-09-14T09:39:08.308Z - [MAPBOX] Map-matched route: 10137.251m, confidence: 0.982068
+[INFO] 2025-09-14T09:39:08.308Z - [H3] Generating spatial index cells...
+[DEBUG] 2025-09-14T09:39:08.309Z - [H3] Generated 18 H3 cells at resolution 9
+[INFO] 2025-09-14T09:39:08.309Z - [DB] Saving trip to database...
+prisma:query BEGIN
+prisma:query INSERT INTO "public"."trips" ("id","driver_id","pickup_lat","pickup_lng","drop_off_lat","drop_off_lng","departure_time","seats_offered","seats_required","status","polyline","route_length_m","route_duration_s","created_at","updated_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,CAST($10::text AS "public"."TripStatus"),$11,$12,$13,$14,$15) RETURNING "public"."trips"."id"
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE "public"."trips"."id" = $1 LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+prisma:query COMMIT
+[INFO] 2025-09-14T09:39:08.322Z - [DB] Trip created successfully: b4cb5bbb-9095-450b-911a-44929495f1d0
+[INFO] 2025-09-14T09:39:08.322Z - [TRIP CREATION] Completed!
+[0mPOST /trips [32m201[0m 950.602 ms - 810[0m
+[INFO] 2025-09-14T09:39:08.324Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:39:08.324Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip ENTERED ##
+[INFO] 2025-09-14T09:39:08.324Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:39:08.324Z - 
+ [MATCHING] Starting match search for trip: 8baec6c5-cfbb-45c0-8c99-73cad112861b
+[INFO] 2025-09-14T09:39:08.324Z -  [STEP 1] Fetching main trip details...
+[INFO] 2025-09-14T09:39:08.324Z -  [DB] Looking up trip details for: 8baec6c5-cfbb-45c0-8c99-73cad112861b
+prisma:query SELECT 1
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."email", "public"."users"."phone_number", "public"."users"."full_name", "public"."users"."age", "public"."users"."gender"::text, "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE "public"."users"."id" IN ($1) OFFSET $2
+[INFO] 2025-09-14T09:39:08.327Z - [TRIP] Found trip from User A (12.90281975413376, 77.67510455869504) → (12.90585225760151, 77.64882508835207)
+[INFO] 2025-09-14T09:39:08.327Z -  [CACHE] Using cached route data: 7088.567m
+[INFO] 2025-09-14T09:39:08.327Z -  [STEP 2] Pre-filtering candidates from database...
+[DEBUG] 2025-09-14T09:39:08.327Z -  [FILTER] Time window: 2025-09-14T17:00:00.000Z to 2025-09-14T18:00:00.000Z
+[DEBUG] 2025-09-14T09:39:08.327Z -  [FILTER] Bounding box: 0.0045 degrees
+prisma:query SELECT "public"."trips"."id", "public"."trips"."driver_id", "public"."trips"."pickup_lat", "public"."trips"."pickup_lng", "public"."trips"."drop_off_lat", "public"."trips"."drop_off_lng", "public"."trips"."departure_time", "public"."trips"."seats_offered", "public"."trips"."seats_required", "public"."trips"."status"::text, "public"."trips"."polyline", "public"."trips"."route_length_m", "public"."trips"."route_duration_s", "public"."trips"."created_at", "public"."trips"."updated_at" FROM "public"."trips" WHERE ("public"."trips"."id" <> $1 AND "public"."trips"."status" = CAST($2::text AS "public"."TripStatus") AND "public"."trips"."departure_time" >= $3 AND "public"."trips"."departure_time" <= $4 AND "public"."trips"."seats_offered" >= $5 AND "public"."trips"."seats_required" <= $6 AND "public"."trips"."pickup_lat" >= $7 AND "public"."trips"."pickup_lat" <= $8 AND "public"."trips"."pickup_lng" >= $9 AND "public"."trips"."pickup_lng" <= $10) OFFSET $11
+[INFO] 2025-09-14T09:39:08.329Z -  [DB] Found 0 potential candidates
+[INFO] 2025-09-14T09:39:08.329Z -  [STEP 2.5] Filtering candidates within 500m...
+[INFO] 2025-09-14T09:39:08.329Z -  [FILTER] Found 0 candidates within proximity
+[INFO] 2025-09-14T09:39:08.329Z -  [STEP 3] Starting detailed analysis with Mapbox...
+[INFO] 2025-09-14T09:39:08.329Z - 
+[ANALYSIS] Completed analysis. Found 0 valid matches
+[INFO] 2025-09-14T09:39:08.329Z - 
+ [MATCHING] #############################################
+[INFO] 2025-09-14T09:39:08.329Z - 
+ [MATCHING] ## MEGA DEBUG: findMatchesForTrip EXITING ##
+[INFO] 2025-09-14T09:39:08.329Z - 
+ [MATCHING] #############################################
+[0mGET /matches/8baec6c5-cfbb-45c0-8c99-73cad112861b [32m200[0m 5.267 ms - 25[0m
+Error creating user: 16 | `;throw new Error(u)}else if(r==="warn"){let u=`Conflict for env var${s.length>1?"s":""} ${s.map(c=>H(c)).join(", ")} in ${X(a)} and ${X(l)}
+17 | Env vars from ${X(l)} overwrite the ones from ${X(a)}
+18 |       `;console.warn(`${ke("warn(prisma)")} ${u}`)}}}}function ns(e){if(ac(e)){pi(`Environment variables loaded from ${e}`);let t=di.default.config({path:e,debug:process.env.DOTENV_CONFIG_DEBUG?!0:void 0});return{dotenvResult:rs(t),message:Oe(`Environment variables loaded from ${ht.default.relative(process.cwd(),e)}`),path:e}}else pi(`Environment variables not found at ${e}`);return null}function is(e,t){return e&&t&&ht.default.resolve(e)===ht.default.resolve(t)}function ac(e){return!!(e&&zr.default.existsSync(e))}var os="library";function Yt(e){let t=lc();return t||(e?.config.engineType==="library"?"library":e?.config.engineType==="binary"?"binary":os)}function lc(){let e=process.env.PRISMA_CLIENT_ENGINE_TYPE;return e==="library"?"library":e==="binary"?"binary":void 0}var Je;(t=>{let e;(E=>(E.findUnique="findUnique",E.findUniqueOrThrow="findUniqueOrThrow",E.findFirst="findFirst",E.findFirstOrThrow="findFirstOrThrow",E.findMany="findMany",E.create="create",E.createMany="createMany",E.createManyAndReturn="crea
+19 | ${(0,ps.default)(pc(n),2)}
+20 | }`}};function cc(e){let t;if(e.length>0){let r=e.find(n=>n.fromEnvVar!==null);r?t=`env("${r.fromEnvVar}")`:t=e.map(n=>n.native?"native":n.value)}else t=void 0;return t}function pc(e){let t=Object.keys(e).reduce((r,n)=>Math.max(r,n.length),0);return Object.entries(e).map(([r,n])=>`${r.padEnd(t)} = ${dc(n)}`).join(`
+21 | `)}function dc(e){return JSON.parse(JSON.stringify(e,(t,r)=>Array.isArray(r)?`[${r.map(n=>JSON.stringify(n)).join(", ")}]`:JSON.stringify(r)))}var er={};Ut(er,{error:()=>gc,info:()=>fc,log:()=>mc,query:()=>hc,should:()=>ds,tags:()=>Xt,warn:()=>yi});var Xt={error:ce("prisma:error"),warn:ke("prisma:warn"),info:De("prisma:info"),query:rt("prisma:query")},ds={warn:()=>!process.env.PRISMA_DISABLE_WARNINGS};function mc(...e){console.log(...e)}function yi(e,...t){ds.warn()&&console.warn(`${Xt.warn} ${e}`,...t)}function fc(e,...t){console.info(`${Xt.info} ${e}`,...t)}function gc(e,...t){console.error(`${Xt.error} ${e}`,...t)}function hc(e,...t){console.log(`${Xt.query} ${e}`,...t)}function Yr(e,t){if(!e)throw new Error(`${t}. This should never happen. If you see this error, please, open an issue at https://pris.ly/prisma-prisma-bug-report`)}function Fe(e,t){throw new Error(t)}function Ei(e,t){return Object.prototype.hasOwnProperty.call(e,t)}var wi=(e,t)=>e.reduce((r,n)=>(r[t(n)]=n,r),{});function yt(e,t){let r={};for
+
+PrismaClientValidationError: 
+Invalid `prisma.user.create()` invocation:
+
+{
+  data: {
+    fullName: "User A",
+    phoneNumber: "+5555555565",
++   email: String
+  }
+}
+
+Argument `email` is missing.
+ clientVersion: "5.22.0",
+
+      at new PrismaClientValidationError (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:21:2707)
+      at wn (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:29:1363)
+      at handleRequestError (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:121:6958)
+      at handleAndLogRequestError (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:121:6623)
+      at <anonymous> (/Users/sidhantsriv/code/projects/ride-sharing/node_modules/@prisma/client/runtime/library.js:121:6307)
+
+[0mPOST /users [31m500[0m 11.805 ms - 193[0m

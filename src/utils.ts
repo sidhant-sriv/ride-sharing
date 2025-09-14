@@ -20,10 +20,12 @@ export function calculateDistance(lat1: number, lng1: number, lat2: number, lng2
 }
 
 /**
- * Calculates the percentage of overlap between two polylines.
+ * Calculates the percentage of overlap between two polylines,
+ * considering the sequence of points to respect route direction.
+ * The calculation is made symmetric by averaging the overlap in both directions.
  * @param polyline1 The first polyline string.
  * @param polyline2 The second polyline string.
- * @returns The overlap percentage.
+ * @returns The symmetric overlap percentage.
  */
 export function calculatePolylineOverlap(polyline1: string, polyline2: string): number {
     try {
@@ -32,20 +34,28 @@ export function calculatePolylineOverlap(polyline1: string, polyline2: string): 
       
       if (coords1.length === 0 || coords2.length === 0) return 0;
       
-      let overlapCount = 0;
-      const threshold = 200; // meters
-      
-      for (const point1 of coords1) {
-        for (const point2 of coords2) {
-          const distance = calculateDistance(point1[0], point1[1], point2[0], point2[1]);
-          if (distance <= threshold) {
-            overlapCount++;
-            break;
+      const calculateDirectedOverlap = (c1: [number, number][], c2: [number, number][]): number => {
+        let matchedPoints = 0;
+        let lastMatchIndex = 0;
+        const threshold = 200; // meters
+
+        for (let i = 0; i < c1.length; i++) {
+          for (let j = lastMatchIndex; j < c2.length; j++) {
+            const distance = calculateDistance(c1[i][0], c1[i][1], c2[j][0], c2[j][1]);
+            if (distance <= threshold) {
+              matchedPoints++;
+              lastMatchIndex = j + 1; 
+              break; 
+            }
           }
         }
-      }
-      
-      return (overlapCount / coords1.length) * 100;
+        return (matchedPoints / c1.length) * 100;
+      };
+
+      const overlap1to2 = calculateDirectedOverlap(coords1, coords2);
+      const overlap2to1 = calculateDirectedOverlap(coords2, coords1);
+
+      return (overlap1to2 + overlap2to1) / 2;
     } catch (error) {
       console.error('Error calculating polyline overlap:', error);
       return 0;

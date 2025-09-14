@@ -7,14 +7,17 @@ import * as h3 from 'h3-js';
 import { invalidateAndRematch } from './match-service';
 import { H3_RESOLUTION } from './constants';
 import type { CreateTripInput, UpdateTripInput, TripStatusType } from './types';
+import { logger } from './logger';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: ['query', 'info', 'warn', 'error'],
+});
 const mapboxClient = MboxClient({ accessToken: process.env.MAPBOX_ACCESS_TOKEN! });
 const directionsService = Directions(mapboxClient);
 const matchingService = Matching(mapboxClient);
 
 export async function createTrip(tripData: CreateTripInput) {
-  console.log(`\n[TRIP CREATION] Starting trip creation...`);
+  logger.info(`[TRIP CREATION] Starting trip creation...`);
   const { 
     driverId, 
     pickup, 
@@ -24,8 +27,8 @@ export async function createTrip(tripData: CreateTripInput) {
     departureTime 
   } = tripData;
 
-  console.log(`[INPUT] Driver: ${driverId}, Seats Offered: ${seatsOffered}, Seats Required: ${seatsRequired}, Departure: ${departureTime}`);
-  console.log(`[ROUTE] ${pickup.lat}, ${pickup.lng} → ${dropOff.lat}, ${dropOff.lng}`);
+  logger.info(`[INPUT] Driver: ${driverId}, Seats Offered: ${seatsOffered}, Seats Required: ${seatsRequired}, Departure: ${departureTime}`);
+  logger.info(`[ROUTE] ${pickup.lat}, ${pickup.lng} → ${dropOff.lat}, ${dropOff.lng}`);
 
   // Validate required fields
   if (!driverId || !pickup || !dropOff || !departureTime) {
@@ -38,7 +41,7 @@ export async function createTrip(tripData: CreateTripInput) {
   }
 
   // Get directions from Mapbox
-  console.log(`[MAPBOX] Fetching directions...`);
+  logger.info(`[MAPBOX] Fetching directions...`);
   const directionsPayload = {
     profile: 'driving-traffic' as const,
     waypoints: [
@@ -47,40 +50,40 @@ export async function createTrip(tripData: CreateTripInput) {
     ],
     geometries: 'polyline6' as const,
   };
-  console.log(`[MAPBOX] Directions API request:`, JSON.stringify(directionsPayload, null, 2));
+  logger.debug(`[MAPBOX] Directions API request:`, JSON.stringify(directionsPayload, null, 2));
 
   const directionsResponse = await directionsService.getDirections(directionsPayload).send();
   
   const route = directionsResponse.body.routes[0];
   const rawPolyline = route.geometry; 
-  console.log(`[MAPBOX] Directions response: ${route.distance}m, ${route.duration}s`);
+  logger.info(`[MAPBOX] Directions response: ${route.distance}m, ${route.duration}s`);
 
   // Map-match the route to get snapped polyline
-  console.log(`[MAPBOX] Map-matching for precise route snapping...`);
+  logger.info(`[MAPBOX] Map-matching for precise route snapping...`);
   const decodedPath = polyline.decode(rawPolyline, 6).map(coord => [coord[1], coord[0]]); // Decode to [lng, lat]
-  console.log(`[DECODE] Decoded ${decodedPath.length} path points`);
+  logger.debug(`[DECODE] Decoded ${decodedPath.length} path points`);
 
   const matchingPayload = {
     profile: 'driving-traffic' as const,
     points: decodedPath.map(p => ({ coordinates: p as [number, number] })),
     geometries: 'polyline6' as const,
   };
-  console.log(`[MAPBOX] Map-matching API request with ${decodedPath.length} points`);
+  logger.debug(`[MAPBOX] Map-matching API request with ${decodedPath.length} points`);
 
   const matchingResponse = await matchingService.getMatch(matchingPayload).send();
 
   const matchedRoute = matchingResponse.body.matchings[0];
   const snappedPolylineEncoded = matchedRoute.geometry;
-  console.log(`[MAPBOX] Map-matched route: ${matchedRoute.distance}m, confidence: ${matchedRoute.confidence}`);
+  logger.info(`[MAPBOX] Map-matched route: ${matchedRoute.distance}m, confidence: ${matchedRoute.confidence}`);
 
   // Generate H3 cells for spatial indexing (optional - kept for backward compatibility)
-  console.log(`[H3] Generating spatial index cells...`);
+  logger.info(`[H3] Generating spatial index cells...`);
   const snappedPathDecoded = polyline.decode(snappedPolylineEncoded, 6); // Decode to [lat, lng]
   const h3Cells = h3.polygonToCells(snappedPathDecoded, H3_RESOLUTION);
-  console.log(`[H3] Generated ${h3Cells.length} H3 cells at resolution ${H3_RESOLUTION}`);
+  logger.debug(`[H3] Generated ${h3Cells.length} H3 cells at resolution ${H3_RESOLUTION}`);
 
   // Create the trip in the database
-  console.log(`[DB] Saving trip to database...`);
+  logger.info(`[DB] Saving trip to database...`);
   const newTrip = await prisma.trip.create({
     data: {
       driverId,
@@ -101,8 +104,8 @@ export async function createTrip(tripData: CreateTripInput) {
     }
   });
 
-  console.log(`[DB] Trip created successfully: ${newTrip.id}`);
-  console.log(`[TRIP CREATION] Completed!`);
+  logger.info(`[DB] Trip created successfully: ${newTrip.id}`);
+  logger.info(`[TRIP CREATION] Completed!`);
 
   return newTrip;
 }

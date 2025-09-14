@@ -34,6 +34,7 @@ enum MatchStatus {
 
 model User {
   id           String   @id @default(uuid())
+  email        String   @unique
   phoneNumber  String   @unique @map("phone_number")
   fullName     String   @map("full_name")
   age          Int?
