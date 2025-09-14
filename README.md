@@ -2,6 +2,10 @@
 
 A ride-sharing platform built with Node.js, Express, and Prisma. It allows users to create trips and find matches for carpooling.
 
+## Demo
+
+![Demo Video](demo.mov)
+
 ## How to Run the Project
 
 1.  **Set up environment variables:**
